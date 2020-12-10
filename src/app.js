@@ -4,10 +4,17 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+const db = require('./models/db');
+
 var indexRouter = require('./api/index');
 
 var app = express();
 
+db()
+  .then(() => console.log("Koneksi database telah sukses"))
+  .catch((err) => `Error koneksi database ${err.message}`)
+  
+console.log("EE")
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');

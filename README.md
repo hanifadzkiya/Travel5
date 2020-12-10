@@ -16,14 +16,14 @@ npm run start
 ```
 
 ## Directory Structure
-Based on : https://softwareontheroad.com/ideal-nodejs-project-structure/
+Node JS Project Structure : https://softwareontheroad.com/ideal-nodejs-project-structure/
 
     src
     | app.js                   # App entry point
     ├── api                    # Express route controllers for all the endpoints of the app
     ├── config                 # Environment variables and configuration related stuff
     ├── models                 # Database models
-    ├── services                  # All the business logic is here
+    ├── services               # All the business logic is here
     ├── LICENSE
     └── README.md
 

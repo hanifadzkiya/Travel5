@@ -14,8 +14,23 @@ const deleteAll = async () => {
   return await Hotels.remove();
 };
 
+const get = async (id) => {
+  return await Hotels.findById(id);
+};
+
+const update = async (id, hotel) => {
+  return await Hotels.findByIdAndUpdate(id, { $set: hotel }, { new: true });
+};
+
+const deleteById = async (id) => {
+  return await Hotels.findByIdAndDelete(id);
+};
+
 module.exports = {
   getAll,
   add,
   deleteAll,
+  get,
+  update,
+  deleteById,
 };

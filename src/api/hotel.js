@@ -6,6 +6,40 @@ const response = require("../util/response");
 const hotelRouter = express.Router();
 
 hotelRouter
+  .route("/:id")
+  .get(async (req, res, next) => {
+    try {
+      const hotels = await hotelService.get(req.params.id);
+      response.responseSuccess(res, hotels);
+    } catch (err) {
+      response.responseFailed(res, 500, err.message);
+    }
+  })
+  .post(async (req, res, next) => {
+    response.responseFailed(res, 404, "Not Found");
+  })
+  .put(async (req, res, next) => {
+    try {
+      const hotels = await hotelService.update(req.params.id, req.body);
+      response.responseSuccess(res, hotels);
+    } catch (err) {
+      response.responseFailed(res, 500, err.message);
+    }
+  })
+  .delete(async (req, res, next) => {
+    try {
+      const result = await hotelService.deleteById(req.params.id);
+      if (result == null) {
+        response.responseFailed(res, 404, "Hotel not found");
+        return;
+      }
+      response.responseSuccess(res, result);
+    } catch (err) {
+      response.responseFailed(res, 500, err.message);
+    }
+  });
+
+hotelRouter
   .route("/")
   .get(async (req, res, next) => {
     try {

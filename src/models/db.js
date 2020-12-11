@@ -4,7 +4,7 @@ const config = require('../config/config');
 
 module.exports = async () => {
   let url;
-  if (config.MONGODB_PORT == null) {
+  if (config.NODE_ENV == 'production') {
     url = `mongodb+srv://${config.MONGODB_USER}:${config.MONGODB_PASSWORD}` + 
       `@${config.MONGODB_HOST}/${config.MONGODB_DB_NAME}`;
   } else {
@@ -15,6 +15,8 @@ module.exports = async () => {
     useNewUrlParser: true, 
     useUnifiedTopology: true,
   };
+
+  console.log(`Connect to mongodb with url ${url} and options ${JSON.stringify(options)}`);
 
   return await mongoose.connect(url, options);
 };

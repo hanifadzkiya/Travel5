@@ -27,6 +27,7 @@ const hotelSchema = new Schema(
     address: String,
     lat: Number,
     long: Number,
+    photos: [String],
     room: [roomSchema],
     reviews: [reviewSchema],
   },

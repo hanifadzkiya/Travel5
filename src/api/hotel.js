@@ -1,4 +1,5 @@
 const express = require("express");
+const multer = require("../util/multer");
 
 const hotelService = require("../services/hotelService");
 const response = require("../util/response");
@@ -57,9 +58,16 @@ hotelRouter
       response.responseFailed(res, 500, err.message);
     }
   })
-  .post(async (req, res, next) => {
+  .post(multer.array("photos"), async (req, res, next) => {
+    console.log(req.files);
     try {
-      const hotel = req.body;
+      const body = req.body;
+      const hotel = {
+        name: body.name,
+        room: JSON.parse(body.room),
+        address: body.address,
+        photos: req.files.map((file) => file.filename),
+      };
       const hotels = await hotelService.add(hotel);
       response.responseSuccess(res, hotels);
     } catch (err) {

@@ -9,8 +9,12 @@ hotelRouter
   .route("/:id")
   .get(async (req, res, next) => {
     try {
-      const hotels = await hotelService.get(req.params.id);
-      response.responseSuccess(res, hotels);
+      const result = await hotelService.get(req.params.id);
+      if (result == null) {
+        response.responseFailed(res, 404, "Hotel not found");
+        return;
+      }
+      response.responseSuccess(res, result);
     } catch (err) {
       response.responseFailed(res, 500, err.message);
     }
@@ -20,8 +24,12 @@ hotelRouter
   })
   .put(async (req, res, next) => {
     try {
-      const hotels = await hotelService.update(req.params.id, req.body);
-      response.responseSuccess(res, hotels);
+      const result = await hotelService.update(req.params.id, req.body);
+      if (result == null) {
+        response.responseFailed(res, 404, "Hotel not found");
+        return;
+      }
+      response.responseSuccess(res, result);
     } catch (err) {
       response.responseFailed(res, 500, err.message);
     }

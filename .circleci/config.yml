@@ -1,0 +1,15 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@4.1.0 #orb version
+
+jobs:
+  build:
+    docker:
+      - image: cimg/node:12
+        auth:
+          username: hanifadzkiya
+          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+    steps:
+      - checkout
+      - run: echo "Hello, $USER!"

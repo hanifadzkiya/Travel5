@@ -8,6 +8,7 @@ const db = require("./models/db");
 
 var indexRouter = require("./api/index");
 const hotelRouter = require("./api/hotel");
+const userRouter = require("./api/user");
 
 var app = express();
 
@@ -21,8 +22,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", indexRouter);
+//app.use("/", indexRouter);
 app.use("/hotel", hotelRouter);
+app.use("/", userRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

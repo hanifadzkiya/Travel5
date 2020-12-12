@@ -41,15 +41,13 @@ userRouter.route("/login")
 userRouter.route("/register")
   .post(async (req, res, next) => {
     try {
-      bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(req.body.password, salt, async(err, hash) => {
-          req.body.password = hash;
-          req.body.role = 1;
-          const user = req.body;
-          const users = await userService.add(user);
-          response.responseSuccess(res, users);
-        });
-      });
+      var salt = await bcrypt.genSalt(10);
+      var hash = await bcrypt.hash(req.body.password,salt);
+      req.body.password = hash;
+      req.body.role = 1;
+      const user = req.body;
+      const users = await userService.add(user);
+      response.responseSuccess(res, users);
     } catch (err) {
       response.responseFailed(res, 500, err.message);
     }

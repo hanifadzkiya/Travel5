@@ -44,7 +44,7 @@ userRouter.route("/register")
       var salt = await bcrypt.genSalt(10);
       var hash = await bcrypt.hash(req.body.password,salt);
       req.body.password = hash;
-      req.body.role = 1;
+      req.body.role = 0;
       const user = req.body;
       const users = await userService.add(user);
       response.responseSuccess(res, users);

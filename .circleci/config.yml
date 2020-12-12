@@ -1,0 +1,16 @@
+version: 2.1
+
+jobs:
+  build1:
+    docker:
+      - image: circleci/ruby:2.4-node
+        auth:
+          username: hanifadzkiya
+          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+      - image: circleci/postgres:9.4.12-alpine
+        auth:
+          username: hanifadzkiya
+          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+    steps:
+      - checkout
+      - run: echo "hello world"

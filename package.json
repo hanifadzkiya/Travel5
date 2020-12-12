@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./src/bin/www"
+    "start": "node ./src/bin/www",
+    "dev": "nodemon ./src/bin/www"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -15,6 +16,9 @@
     "migrate": "^1.7.0",
     "mongodb": "^3.6.3",
     "mongoose": "^5.11.6",
-    "morgan": "~1.9.1"
+    "mongoose-currency": "^0.2.0",
+    "morgan": "~1.9.1",
+    "multer": "^1.4.2",
+    "public-ip": "^4.0.3"
   }
 }

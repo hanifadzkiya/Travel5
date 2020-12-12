@@ -35,4 +35,7 @@ Give a ⭐️ if this project helped you!
 _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
 
 ## Contributor
-DTI
+1. Antyka Syahrial
+2. Hilman Abdan
+3. Muhammad Hanif Adzkiya
+4. Rival Fauzi

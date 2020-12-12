@@ -7,6 +7,7 @@ const response = require("../util/response");
 const adminRouter = express.Router();
 
 adminRouter.route("/register")
+//register for admin
   .post(async (req, res, next) => {
     try {
       var salt = await bcrypt.genSalt(10);
@@ -20,27 +21,122 @@ adminRouter.route("/register")
       response.responseFailed(res, 500, err.message);
     }
   })
-
-  .put(async (req, res, next) => {
-    response.responseFailed(res, 404, "Not Found");
-  })
-
   .get(async (req, res, next) => {
     response.responseFailed(res, 404, "Not Found");
   })
-
+  .put(async (req, res, next) => {
+    response.responseFailed(res, 404, "Not Found");
+  })
   .delete(async (req, res, next) => {
     response.responseFailed(res, 404, "Not Found");
   });
 
-  //login admin
-  //update admin
-  //delete admin by username
-  //delete all admin
-  //get all
-  //get user by username
-  //delet all username
-  //delet user by username
-  //update user
+adminRouter.route("/login")
+//login for admin
+  .post(async (req, res, next) => {
+    try {
+      const result = await userService.getByUsername(req.body.username);
+      if (result == null) {
+        response.responseFailed(res, 404, "Login failed");
+        return;
+      }
+      var hasil = await bcrypt.compare(req.body.password, result.password)
+      if (hasil == false){
+        response.responseFailed(res, 404, "Login failed");
+        return;
+      } 
+      response.responseSuccess(res, result);
+    } catch (err) {
+      response.responseFailed(res, 500, err.message);
+    }
+  })
+  .get(async (req, res, next) => {
+    response.responseFailed(res, 404, "Not Found");
+  })
+  .put(async (req, res, next) => {
+    response.responseFailed(res, 404, "Not Found");
+  })
+  .delete(async (req, res, next) => {
+    response.responseFailed(res, 404, "Not Found");
+  })
+
+
+adminRouter.route("/user")
+  .put(async (req, res, next) => {
+    response.responseFailed(res, 404, "Not Found");
+  })
+  //get all user
+  .get(async (req, res, next) => {
+    try {
+      const users = await userService.getAll();
+      response.responseSuccess(res, users);
+    } catch (err) {
+      response.responseFailed(res, 500, err.message);
+    }
+  })
+  //delete all user
+  .delete(async (req, res, next) => {
+    try {
+      const result = await userService.deleteAll();
+      response.responseSuccess(res, result);
+    } catch (err) {
+      response.responseFailed(res, 500, err.message);
+    }
+  })
+  .post(async (req, res, next) => {
+    response.responseFailed(res, 404, "Not Found");
+  })
+
+adminRouter.route("/user/:username")
+ //update for admin
+  .put(async (req, res, next) => {
+    try {
+      if(req.body.password != null){
+        var salt = await bcrypt.genSalt(10);
+        var hash = await bcrypt.hash(req.body.password,salt);
+        req.body.password = hash;
+      }
+      const result = await userService.update(req.params.username, req.body);
+      if (result == null) {
+        response.responseFailed(res, 404, "User not found");
+        return;
+      }
+      response.responseSuccess(res, result);
+    } catch (err) {
+      response.responseFailed(res, 500, err.message);
+    }
+  })
+  //get by username
+  .get(async (req, res, next) => {
+    try {
+      const result = await userService.getByUsername(req.params.username);
+      if (result == null) {
+        response.responseFailed(res, 404, "User not found");
+        return;
+      }
+      response.responseSuccess(res, result);
+    } catch (err) {
+      response.responseFailed(res, 500, err.message);
+    }
+  })
+  //delete user by username
+  .delete(async (req, res, next) => {
+    try {
+      const result = await userService.deleteByUsername(req.params.username);
+      if (result == null) {
+        response.responseFailed(res, 404, "User not found");
+        return;
+      }
+      response.responseSuccess(res, result);
+    } catch (err) {
+      response.responseFailed(res, 500, err.message);
+    }
+  })
+  .post(async (req, res, next) => {
+    response.responseFailed(res, 404, "Not Found");
+  })
+
+
+  
 
   module.exports = adminRouter;

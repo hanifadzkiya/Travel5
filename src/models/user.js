@@ -3,6 +3,46 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 require("mongoose-currency").loadType(mongoose);
 
+const transactionHotelSchema = new Schema({
+  idHotel:  {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'hotel'
+    //harus required
+  },
+  totalTransaksi:  {
+      type: Number,
+      required: true
+  },
+}, {
+  timestamps: true
+});
+
+const transactionTempatWisataSchema = new Schema({
+  idTempatWisata:  {
+    type: mongoose.Schema.Types.ObjectId,
+    //ref: 'hotel'
+  },
+  totalTransaksi:  {
+      type: Number,
+      required: true
+  },
+}, {
+  timestamps: true
+});
+
+const transactionPaketWisataSchema = new Schema({
+  idPaketWisata:  {
+    type: mongoose.Schema.Types.ObjectId,
+    //ref: 'hotel'
+  },
+  totalTransaksi:  {
+      type: Number,
+      required: true
+  },
+}, {
+  timestamps: true
+});
+
 const userSchema = new Schema(
   {
     username: {
@@ -32,8 +72,10 @@ const userSchema = new Schema(
         type: Boolean,
         required: true,
     }, 
-  },
-  {
+    transactionHotel:[transactionHotelSchema],
+    transactionTempatWisata:[transactionTempatWisataSchema],
+    transactionPaketWisata:[transactionPaketWisataSchema]
+  },{
     timestamps: true,
   }
 );

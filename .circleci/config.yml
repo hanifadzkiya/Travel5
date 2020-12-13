@@ -30,10 +30,10 @@ jobs:
             command: |
                 if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "feature/circle-ci" ] 
                 then 
-                    ssh -o StrictHostKeyChecking=no ubuntu@54.163.242.157 
-                    sudo su
-                    echo 0
-                    exit
+                    ssh -o StrictHostKeyChecking=no ubuntu@54.163.242.157 \
+                    "echo Start deploy && \
+                    sudo su && \
+                    echo deploy end"
                 else 
                     echo "Skipped"; 
                 fi

@@ -12,7 +12,7 @@ jobs:
       - run: echo $DOCKER_USER
       - run: |
           echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKER_USER --password-stdin
-      - run: docker build -t hanifadzkiya/travel:$CIRCLE_BRANCH .
+      - run: docker build --tag hanifadzkiya/travel:$CIRCLE_BRANCH .
 
       # deploy the image
       - run: docker push hanifadzkiya/travel:$CIRCLE_BRANCH

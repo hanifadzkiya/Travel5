@@ -23,4 +23,6 @@ jobs:
           echo $DOCKERHUB_PASSWORD | docker login -u $DOCKER_USER --password-stdin
           docker push $DOCKER_USER/travel:$TAG
       - add_ssh_keys
+      - run: |
+          ssh ubuntu@54.163.242.157
         

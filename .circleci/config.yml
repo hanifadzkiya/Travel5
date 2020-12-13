@@ -20,5 +20,5 @@ jobs:
       - run: |
           TAG=0.1.$CIRCLE_BUILD_NUM
           docker build -t $DOCKER_USER/travel:$TAG .
-          echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+          echo $DOCKERHUB_PASSWORD | docker login -u $DOCKER_USER --password-stdin
           docker push $DOCKER_USER/travel:$TAG

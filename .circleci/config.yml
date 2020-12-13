@@ -24,10 +24,15 @@ jobs:
       - run: 
           name: Push Docker image
           command: |
-              TAG=0.1.$CIRCLE_BUILD_NUM
-              docker build -t $DOCKER_USER/travel:$TAG .
-              echo $DOCKERHUB_PASSWORD | docker login -u $DOCKER_USER --password-stdin
-              docker push $DOCKER_USER/travel:$TAG
+              if [ "${CIRCLE_BRANCH}" == "master" ]
+              then 
+                  TAG=0.1.$CIRCLE_BUILD_NUM
+                  docker build -t $DOCKER_USER/travel:$TAG .
+                  echo $DOCKERHUB_PASSWORD | docker login -u $DOCKER_USER --password-stdin
+                  docker push $DOCKER_USER/travel:$TAG
+              else
+                  echo "Skipped"
+              fi
       # - add_ssh_keys
       # - run: 
       #       name: Deploy to EC2

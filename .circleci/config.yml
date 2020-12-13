@@ -1,7 +1,7 @@
 version: 2.1
 
 jobs:
-  build1:
+  build:
     docker:
       - image: cimg/node:14.10.1 # the primary container, where your job's commands are run
         auth:

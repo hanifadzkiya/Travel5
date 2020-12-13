@@ -11,7 +11,7 @@ jobs:
       - checkout
       - run: echo $CIRCLE_BRANCH
       - run: |
-          echo "$DOCKER_PASS" | docker login --username $DOCKER_USER --password-stdin
+          echo "$DOCKER_PASSWORD" | docker login --username $DOCKER_USER --password-stdin
       - run: docker build -t hanifadzkiya/travel:$CIRCLE_BRANCH .
 
       # deploy the image

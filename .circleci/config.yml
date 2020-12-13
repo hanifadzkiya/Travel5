@@ -43,7 +43,7 @@ jobs:
                     docker stop $(docker ps -a -q) && \
                     docker rm $(docker ps -a -q) && \
                     docker pull hanifadzkiya/travel && \
-                    docker run -d -p 3000:3000 hanifadzkiya/travel
+                    docker run -d -p 3000:3000 hanifadzkiya/travel && \
                     echo deploy end"
                 else 
                     echo "Skipped"; 

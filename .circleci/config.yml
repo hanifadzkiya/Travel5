@@ -9,9 +9,9 @@ jobs:
           password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
     steps:
       - checkout
-      - run: echo $CIRCLE_BRANCH
+      - run: echo $DOCKER_USER
       - run: |
-          echo "$DOCKER_PASSWORD" | docker login --username $DOCKER_USER --password-stdin
+          echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKER_USER --password-stdin
       - run: docker build -t hanifadzkiya/travel:$CIRCLE_BRANCH .
 
       # deploy the image

@@ -9,14 +9,15 @@ WORKDIR /usr/src/app
 # where available (npm@5+)
 COPY package*.json ./
 
-RUN touch src/config/.env
-
 RUN npm install
 # If you are building your code for production
 # RUN npm ci --only=production
 
 # Bundle app source
 COPY . .
+
+RUN ls
+RUN touch src/config/.env
 
 EXPOSE 3000
 

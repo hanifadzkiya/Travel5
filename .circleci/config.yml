@@ -22,3 +22,5 @@ jobs:
           docker build -t $DOCKER_USER/travel:$TAG .
           echo $DOCKERHUB_PASSWORD | docker login -u $DOCKER_USER --password-stdin
           docker push $DOCKER_USER/travel:$TAG
+      - add_ssh_keys
+        

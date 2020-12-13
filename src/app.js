@@ -31,6 +31,9 @@ app.use("/", userRouter);
 app.use("/admin", adminRouter);
 app.use("/transaction", transactionRouter);
 
+app.use("jwt_user/transaction",authenticateTokenUser, transactionRouter);
+app.use("jwt_admin/transaction",authenticateTokenAdmin, transactionRouter);
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
@@ -49,5 +52,39 @@ app.use(function (err, req, res, next) {
     message: err.message,
   });
 });
+//middleware JWT User
+function authenticateTokenUser(req, res, next) {
+  const token = req.headers.authorization;
+
+  try{
+    var kagabege = jwt.verify(token, process.env.TOKEN_SECRET);
+    if(kagabege.role == 0){
+      next(); // pass the execution off to whatever request the client intended
+    }
+    res.status(403)
+    res.send({'message' : 'UNAUTHORIZED'});
+  }catch(err){
+    console.log('UNAUTHORIZED');
+    res.status(403)
+    res.send({'message' : 'UNAUTHORIZED'});
+  }
+}
+//middleware JWT ADMIN
+function authenticateTokenAdmin(req, res, next) {
+  const token = req.headers.authorization;
+
+  try{
+    var kagabege = jwt.verify(token, process.env.TOKEN_SECRET);
+    if(kagabege.role == 1){
+      next(); // pass the execution off to whatever request the client intended
+    }
+    res.status(403)
+    res.send({'message' : 'UNAUTHORIZED'});
+  }catch(err){
+    console.log('UNAUTHORIZED');
+    res.status(403)
+    res.send({'message' : 'UNAUTHORIZED'});
+  }
+}
 
 module.exports = app;

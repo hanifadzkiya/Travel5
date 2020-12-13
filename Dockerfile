@@ -16,6 +16,8 @@ RUN npm install
 # Bundle app source
 COPY . .
 
+RUN touch src/config/.env
+
 EXPOSE 3000
 
 CMD [ "npm", "start" ]

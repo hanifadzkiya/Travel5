@@ -20,8 +20,7 @@ userRouter.route("/login")
         response.responseFailed(res, 404, "Login failed");
         return;
       } 
-      const token = generateAccessToken({ username: req.body.username });
-      response.responseSuccess(res, {'_token' : token+""});
+      response.responseSuccess(res, result);
 
     } catch (err) {
       response.responseFailed(res, 500, err.message);
@@ -85,10 +84,4 @@ userRouter.route("/profile")
       response.responseFailed(res, 500, err.message);
     }
   })
-
-//jwt
-function generateAccessToken(username) {
-  // expires after half and hour (1800 seconds = 30 minutes)
-  return jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: '1800s' });
-}
 module.exports = userRouter;

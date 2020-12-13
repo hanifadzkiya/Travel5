@@ -16,7 +16,6 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-RUN ls
 RUN touch src/config/.env
 
 EXPOSE 3000

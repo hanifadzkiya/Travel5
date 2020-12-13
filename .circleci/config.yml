@@ -39,7 +39,6 @@ jobs:
                     docker push $DOCKER_USER/travel
                     ssh -o StrictHostKeyChecking=no ubuntu@54.163.242.157 \
                     "echo Start deploy && \
-                    sudo su && \
                     docker stop $(docker ps -a -q) && \
                     docker rm $(docker ps -a -q) && \
                     docker pull hanifadzkiya/travel && \

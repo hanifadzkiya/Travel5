@@ -9,9 +9,9 @@ jobs:
           password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
     steps:
       - checkout
-      - run: echo "hello world"
+      - run: echo $CIRCLE_BRANCH
       # build the application image
-      - run: docker build -t hanifadzkiya/travelp:$CIRCLE_BRANCH .
+      - run: docker build -t hanifadzkiya/travel:$CIRCLE_BRANCH .
 
       # deploy the image
       - run: docker push hanifadzkiya/travel:$CIRCLE_BRANCH

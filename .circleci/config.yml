@@ -23,6 +23,8 @@ jobs:
           echo $DOCKERHUB_PASSWORD | docker login -u $DOCKER_USER --password-stdin
           docker push $DOCKER_USER/travel:$TAG
       - add_ssh_keys
-      - run: |
-          ssh ubuntu@54.163.242.157
+      - run: 
+            name: Deploy to EC2
+            command: |
+                if [ "${CIRCLE_BRANCH}" == "master" || "${CIRCLE_BRANCH}" == "feature/circle-ci"]; then ssh ubuntu@54.163.242.157 'echo 0 && exit'; else echo "Skipped"; fi
         

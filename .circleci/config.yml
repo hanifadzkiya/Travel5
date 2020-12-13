@@ -10,6 +10,8 @@ jobs:
     steps:
       - checkout
       - run: echo $CIRCLE_BRANCH
+      - run: |
+        echo "$DOCKER_PASS" | docker login --username $DOCKER_USER --password-stdin
       # build the application image
       - run: docker build -t hanifadzkiya/travel:$CIRCLE_BRANCH .
 

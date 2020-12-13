@@ -66,8 +66,13 @@ const userSchema = new Schema(
     }, 
     password: {
         type: String,
+        min: 5,
         required: true,
-    }, 
+    },
+    foto: {
+        type: String,
+        required: true,   
+    },
     role: {
         type: Boolean,
         required: true,

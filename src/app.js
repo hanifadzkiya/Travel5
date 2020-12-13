@@ -3,9 +3,9 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-
+var bodyparser = require("body-parser");
 const db = require("./models/db");
-
+const fileUpload = require('express-fileupload');
 var indexRouter = require("./api/index");
 const hotelRouter = require("./api/hotel");
 const userRouter = require("./api/user");
@@ -18,8 +18,12 @@ db()
   .catch((err) => `Error koneksi database ${err.message}`);
 
 app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+// app.use(express.json());
+//app.use(express.urlencoded({ extended: false }));
+app.use(fileUpload());
+
+app.use(bodyparser.json());
+app.use(bodyparser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 

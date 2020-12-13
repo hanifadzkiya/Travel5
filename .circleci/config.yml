@@ -2,6 +2,7 @@ version: 2.1
 
 jobs:
   build:
+    machine: true
     docker:
       - image: cimg/node:14.10.1 # the primary container, where your job's commands are run
         auth:
@@ -10,6 +11,9 @@ jobs:
     steps:
       - checkout
       - run: echo $DOCKER_USER
+      - setup_remote_docker:
+          version: 19.03.13
+          docker_layer_caching: true
       - run: |
           echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKER_USER --password-stdin
       - run: docker build --tag hanifadzkiya/travel:$CIRCLE_BRANCH .

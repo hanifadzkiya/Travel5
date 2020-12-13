@@ -84,24 +84,4 @@ userRouter.route("/profile")
     }
   })
 
-userRouter.route("/:username/transaksihotel")
-//post transaksi hotel
-  .post(async (req, res, next) => {
-    try {
-      const result = await userService.getByUsername(req.params.username);
-      if (result == null) {
-        response.responseFailed(res, 404, "User not found");
-        return;
-      }
-      const transaksi = await userService.insertTransactionHotel(req.params.username, req.body)
-      response.responseSuccess(res, transaksi);
-    } catch (err) {
-      response.responseFailed(res, 500, err.message);
-    }
-  })
-
-  //post transaksi paket wisata
-  //post transaksi tempat wisata
-
-
 module.exports = userRouter;

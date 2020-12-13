@@ -11,7 +11,7 @@ const transactionHotelSchema = new Schema({
   },
   totalTransaksi:  {
       type: Number,
-      required: true
+      //required: true
   },
 }, {
   timestamps: true
@@ -24,7 +24,7 @@ const transactionTempatWisataSchema = new Schema({
   },
   totalTransaksi:  {
       type: Number,
-      required: true
+      //required: true
   },
 }, {
   timestamps: true
@@ -37,7 +37,7 @@ const transactionPaketWisataSchema = new Schema({
   },
   totalTransaksi:  {
       type: Number,
-      required: true
+      //required: true
   },
 }, {
   timestamps: true

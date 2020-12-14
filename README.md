@@ -15,6 +15,22 @@ npm install
 npm run start
 ```
 
+## Deploy to production
+
+If any change in .env file :
+```sh
+1. Open .env file, nano .env
+2. Change .env variable
+3. Save .env file
+```
+
+```sh
+1. ssh to prod server ( ssh -i <path to ssh file> ubuntu@54.163.242.157)
+2. docker stop $(docker ps -a -q)
+3. docker rm $(docker ps -a -q)
+4. docker run --env-file=.env -d -p  3000:3000 hanifadzkiya/travel:0.1.<nomor circle ci>
+```
+
 ## Directory Structure
 Node JS Project Structure : https://softwareontheroad.com/ideal-nodejs-project-structure/
 

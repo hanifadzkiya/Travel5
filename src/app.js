@@ -8,6 +8,7 @@ const db = require("./models/db");
 
 var indexRouter = require("./api/index");
 const hotelRouter = require("./api/hotel");
+const config = require("./config/config");
 
 var app = express();
 
@@ -19,7 +20,7 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.resolve(process.cwd(), "public")));
+app.use(express.static(config.STATIC_PATH));
 
 app.use("/", indexRouter);
 app.use("/hotel", hotelRouter);

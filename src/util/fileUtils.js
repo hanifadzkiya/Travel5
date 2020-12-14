@@ -3,10 +3,11 @@ const crypto = require("crypto");
 const path = require("path");
 const fs = require("fs");
 const publicIp = require("public-ip");
+const config = require("../config/config");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "public/images");
+    cb(null, `${config.STATIC_PATH}/images`);
   },
   filename: function (req, file, cb) {
     let customFileName = crypto.randomBytes(18).toString("hex");
@@ -18,7 +19,7 @@ const storage = multer.diskStorage({
 const multerUtil = multer({ storage });
 
 const deleteFile = (file) => {
-  const filePath = path.resolve(process.cwd(), `public/images/${file}`);
+  const filePath = `${config.STATIC_PATH}/images/${file}`;
   console.log(`Download file in ${filePath}`);
   try {
     fs.unlinkSync(filePath);

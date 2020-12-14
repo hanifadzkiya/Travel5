@@ -36,7 +36,7 @@ jobs:
               ls
               cd ..
               ls
-              zip -r travel.zip Travel5
+              zip -r travel.zip project
               scp -o StrictHostKeyChecking=no travel.zip ubuntu@54.163.242.157:/home/ubuntu/
               ssh -o StrictHostKeyChecking=no ubuntu@54.163.242.157 \
               "echo Start deploy && \

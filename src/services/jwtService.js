@@ -18,7 +18,8 @@ const authenticateTokenUser = (req, res, next) => {
       res.send({'message' : 'UNAUTHORIZED'});
     }
   }
-  //middleware JWT ADMIN
+  
+//middleware JWT ADMIN
 const authenticateTokenAdmin = (req, res, next) => {
     const token = req.headers.authorization;
   

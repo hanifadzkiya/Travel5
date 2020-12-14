@@ -31,8 +31,6 @@ app.use("/", userRouter);
 app.use("/admin", adminRouter);
 app.use("/fe/transaction", transactionRouter);
 app.use("/transaction",jwtService.authenticateTokenUser, transactionRouter);
-// app.use("jwt_user/transaction",authenticateTokenUser, transactionRouter);
-// app.use("jwt_admin/transaction",authenticateTokenAdmin, transactionRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

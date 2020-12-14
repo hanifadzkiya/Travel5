@@ -75,7 +75,7 @@ userRouter.route("/register")
   });
 
 userRouter.route("/profile")
-  .put(async (req, res, next) => {
+  .put(async (req, res, next) => { //user dan admin
     try {
       if(req.body.password != null){
         var salt = await bcrypt.genSalt(10);

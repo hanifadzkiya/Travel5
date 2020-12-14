@@ -1,12 +1,11 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 
 const userService = require("../services/userService");
 const response = require("../util/response");
-
+const jwtService = require("../services/jwtService");
 const userRouter = express.Router();
-
+const jwt = require("jsonwebtoken");
 userRouter.route("/login")
   .post(async (req, res, next) => {
     try {
@@ -21,12 +20,13 @@ userRouter.route("/login")
         return;
       } 
       const token = generateAccessToken({
-        'username' : req.body.username,
-        'role' : req.body.role,
-        'name' : req.body.name,
-        'email' : req.body.email,
-        'phone_number' : req.body.phone_number
+        'username' : result.username,
+        'role' : result.role,
+        'name' : result.name,
+        'email' : result.email,
+        'phone_number' : result.phone_number
       });
+
       response.responseSuccess(res, {'_token' : token+""});
 
     } catch (err) {

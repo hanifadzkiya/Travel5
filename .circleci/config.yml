@@ -33,7 +33,7 @@ jobs:
       - run:
           name: Deploy with PM2
           command: |
-              ssh -o StrictHostKeyChecking=no ubuntu@172.31.93.163 \
+              ssh -o StrictHostKeyChecking=no ubuntu@54.163.242.157 \
               "echo Start deploy && \
               cd Travel5 && \
               git pull origin master && \

@@ -40,7 +40,7 @@ jobs:
               scp -o StrictHostKeyChecking=no travel.zip ubuntu@54.163.242.157:/home/ubuntu/
               ssh -o StrictHostKeyChecking=no ubuntu@54.163.242.157 \
               "echo Start deploy && \
-              cd Travel5 && \
+              cd project && \
               npm install && \
               pm2 kill && \
               npx pm2 start src/bin/www && \

@@ -28,7 +28,7 @@ app.use(fileUpload());
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.resolve(process.cwd(), "public")));
 
 //app.use("/", indexRouter);
 app.use("/hotel", hotelRouter);

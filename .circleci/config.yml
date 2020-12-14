@@ -30,18 +30,18 @@ jobs:
       #             echo "Skipped"
       #         fi
       - add_ssh_keys
-      - run:
-          name: Deploy with PM2
-          comamnd: |
-              ssh -o StrictHostKeyChecking=no ubuntu@54.163.242.157 \
-              "echo Start deploy && \
-              pm2 kill && \
-              rm -rf Travel5 && \
-              git clone git@github.com:hanifadzkiya/Travel5.git && \
-              cd Travel5 && \
-              npm install && \
-              npx pm2 start src/bin/www && \
-              echo End Deploy"
+      # - run:
+      #     name: Deploy with PM2
+      #     comamnd: |
+      #         ssh -o StrictHostKeyChecking=no ubuntu@54.163.242.157 \
+      #         "echo Start deploy && \
+      #         pm2 kill && \
+      #         rm -rf Travel5 && \
+      #         git clone git@github.com:hanifadzkiya/Travel5.git && \
+      #         cd Travel5 && \
+      #         npm install && \
+      #         npx pm2 start src/bin/www && \
+      #         echo End Deploy"
       # - add_ssh_keys
       # - run: 
       #       name: Deploy to EC2

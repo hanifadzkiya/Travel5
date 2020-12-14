@@ -37,7 +37,7 @@ jobs:
               "echo Start deploy && \
               pm2 kill && \
               rm -rf Travel5 && \
-              git clone $GIT_REPO && \
+              git clone git@github.com:hanifadzkiya/Travel5.git && \
               cd Travel5 && \
               npm install && \
               npx pm2 start src/bin/www && \

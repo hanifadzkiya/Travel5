@@ -136,7 +136,4 @@ adminRouter.route("/user/:username")
     response.responseFailed(res, 404, "Not Found");
   })
 
-
-  
-
   module.exports = adminRouter;

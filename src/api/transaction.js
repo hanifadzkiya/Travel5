@@ -129,8 +129,7 @@ transactionRouter.route("/hotel/:username/:idHotel")
       result.save(async function (err,result){
         if(err){
           console.log(err);
-          response.responseFailed(res, 404, "Tour not found");
-
+          response.responseFailed(res, 404, "Hotel not found");
         }else{
           const transaksi = await transactionService.insertTransaction(req.params.username, 'transactionHotel', req.body)
           response.responseSuccess(res, transaksi);

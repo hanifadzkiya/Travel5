@@ -10,8 +10,16 @@ const transactionHotelSchema = new Schema({
     //harus required
   },
   totalTransaksi:  {
-      type: Number,
-      //required: true
+    type: Number,
+    //required: true
+  },
+  start_date:  {
+    type: Date,
+    //required: true
+  },
+  end_date:  {
+    type: Date,
+    //required: true
   },
 }, {
   timestamps: true
@@ -26,6 +34,14 @@ const transactionTempatWisataSchema = new Schema({
       type: Number,
       //required: true
   },
+  start_date:  {
+    type: Date,
+    //required: true
+  },
+  end_date:  {
+    type: Date,
+    //required: true
+  },
 }, {
   timestamps: true
 });
@@ -38,6 +54,14 @@ const transactionPaketWisataSchema = new Schema({
   totalTransaksi:  {
       type: Number,
       //required: true
+  },
+  start_date:  {
+    type: Date,
+    //required: true
+  },
+  end_date:  {
+    type: Date,
+    //required: true
   },
 }, {
   timestamps: true

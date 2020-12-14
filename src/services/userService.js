@@ -28,11 +28,6 @@ const deleteByUsername = async (username) => {
   return await Users.findOneAndRemove({ 'username' : username });
 };
 
-const insertTransactionHotel = async (username, transaksihotel) => {
-  return await Users.findOneAndUpdate({'username': username},{ $push : {transactionHotel : transaksihotel}}, {new: true});
-}
-
-
 module.exports = {
   getAll,
   add,
@@ -40,5 +35,4 @@ module.exports = {
   getByUsername,
   update,
   deleteByUsername,
-  insertTransactionHotel,
 };

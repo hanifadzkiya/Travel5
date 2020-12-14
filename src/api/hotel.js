@@ -1,5 +1,6 @@
 const express = require("express");
 
+const fileUtils = require("../util/fileUtils");
 const hotelService = require("../services/hotelService");
 const response = require("../util/response");
 
@@ -22,9 +23,18 @@ hotelRouter
   .post(async (req, res, next) => {
     response.responseFailed(res, 404, "Not Found");
   })
-  .put(async (req, res, next) => {
+  .put(fileUtils.multer.array("photos"), async (req, res, next) => {
     try {
-      const result = await hotelService.update(req.params.id, req.body);
+      console.log(`Update hotel : ${JSON.stringify(req.body)}`);
+      body = req.body;
+      console.log(body.room);
+      const hotel = {
+        name: body.name,
+        room: JSON.parse(body.room),
+        address: body.address,
+        photos: req.files.map((file) => file.filename),
+      };
+      const result = await hotelService.update(req.params.id, hotel);
       if (result == null) {
         response.responseFailed(res, 404, "Hotel not found");
         return;
@@ -57,9 +67,15 @@ hotelRouter
       response.responseFailed(res, 500, err.message);
     }
   })
-  .post(async (req, res, next) => {
+  .post(fileUtils.multer.array("photos"), async (req, res, next) => {
     try {
-      const hotel = req.body;
+      const body = req.body;
+      const hotel = {
+        name: body.name,
+        room: JSON.parse(body.room),
+        address: body.address,
+        photos: req.files.map((file) => file.filename),
+      };
       const hotels = await hotelService.add(hotel);
       response.responseSuccess(res, hotels);
     } catch (err) {

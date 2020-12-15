@@ -75,16 +75,18 @@ userRouter.route("/register")
 userRouter.route("/profile")
   .put(async (req, res, next) => {
     try {
-      if(req.files.foto != null){
-        const result = await userService.getByUsername(req.body.username);
-        const filePath = './public/images/'+result.foto;
+      const user = await userService.getByUsername(req.body.username);
+      if(req.files !== null){
+        const filePath = './public/images/'+user.foto;
         fs.unlinkSync(filePath);
         //add foto
         var file = req.files.foto;
         var ext = file.name.split(".").pop();
         file.name = Date.now() + '.'+ext;
         await file.mv('./public/images/'+file.name);
-        req.body.foto = file.name;      
+        req.body.foto = file.name ;   
+      }else{
+        req.body.foto = user.foto;
       }
       if(req.body.password != null){
         var salt = await bcrypt.genSalt(10);

@@ -10,8 +10,16 @@ const transactionHotelSchema = new Schema({
     //harus required
   },
   totalTransaksi:  {
-      type: Number,
-      required: true
+    type: Number,
+    //required: true
+  },
+  start_date:  {
+    type: Date,
+    //required: true
+  },
+  end_date:  {
+    type: Date,
+    //required: true
   },
 }, {
   timestamps: true
@@ -20,11 +28,19 @@ const transactionHotelSchema = new Schema({
 const transactionTempatWisataSchema = new Schema({
   idTempatWisata:  {
     type: mongoose.Schema.Types.ObjectId,
-    //ref: 'hotel'
+    //ref: 'TempatWisata'
   },
   totalTransaksi:  {
       type: Number,
-      required: true
+      //required: true
+  },
+  start_date:  {
+    type: Date,
+    //required: true
+  },
+  end_date:  {
+    type: Date,
+    //required: true
   },
 }, {
   timestamps: true
@@ -33,11 +49,19 @@ const transactionTempatWisataSchema = new Schema({
 const transactionPaketWisataSchema = new Schema({
   idPaketWisata:  {
     type: mongoose.Schema.Types.ObjectId,
-    //ref: 'hotel'
+    //ref: 'PaketWisata'
   },
   totalTransaksi:  {
       type: Number,
-      required: true
+      //required: true
+  },
+  start_date:  {
+    type: Date,
+    //required: true
+  },
+  end_date:  {
+    type: Date,
+    //required: true
   },
 }, {
   timestamps: true
@@ -66,13 +90,8 @@ const userSchema = new Schema(
     }, 
     password: {
         type: String,
-        min: 5,
         required: true,
-    },
-    foto: {
-        type: String,
-        required: true,   
-    },
+    }, 
     role: {
         type: Boolean,
         required: true,

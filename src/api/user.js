@@ -4,8 +4,9 @@ const jwt = require("jsonwebtoken");
 
 const userService = require("../services/userService");
 const response = require("../util/response");
-
+const jwtService = require("../services/jwtService");
 const userRouter = express.Router();
+const jwt = require("jsonwebtoken");
 
 userRouter.route("/login")
   .post(async (req, res, next) => {
@@ -20,7 +21,15 @@ userRouter.route("/login")
         response.responseFailed(res, 404, "Login failed");
         return;
       } 
-      response.responseSuccess(res, result);
+      const token = generateAccessToken({
+        'username' : result.username,
+        'role' : result.role,
+        'name' : result.name,
+        'email' : result.email,
+        'phone_number' : result.phone_number
+      });
+
+      response.responseSuccess(res, {'_token' : token+""});
 
     } catch (err) {
       response.responseFailed(res, 500, err.message);
@@ -67,7 +76,7 @@ userRouter.route("/register")
   });
 
 userRouter.route("/profile")
-  .put(async (req, res, next) => {
+  .put(async (req, res, next) => { //user dan admin
     try {
       if(req.body.password != null){
         var salt = await bcrypt.genSalt(10);

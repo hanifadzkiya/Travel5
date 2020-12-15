@@ -3,8 +3,9 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-
+const jwtService = require("./services/jwtService");
 const db = require("./models/db");
+
 
 var indexRouter = require("./api/index");
 const hotelRouter = require("./api/hotel");
@@ -27,7 +28,7 @@ app.use(express.static(path.resolve(process.cwd(), "public")));
 //app.use("/", indexRouter);
 app.use("/hotel", hotelRouter);
 app.use("/", userRouter);
-app.use("/admin", adminRouter);
+app.use("/admin", jwtService.authenticateTokenAdmin, adminRouter);
 app.use("/transaction", transactionRouter);
 
 // catch 404 and forward to error handler

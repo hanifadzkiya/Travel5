@@ -37,7 +37,7 @@ adminRouter.route("/register")
     response.responseFailed(res, 404, "Not Found");
   });
 
-adminRouter.route("/login")
+/*adminRouter.route("/login")
 //login for admin
   .post(async (req, res, next) => {
     try {
@@ -64,7 +64,7 @@ adminRouter.route("/login")
   })
   .delete(async (req, res, next) => {
     response.responseFailed(res, 404, "Not Found");
-  })
+  })*/
 
 
 adminRouter.route("/user")
@@ -72,7 +72,7 @@ adminRouter.route("/user")
     response.responseFailed(res, 404, "Not Found");
   })
   //get all user
-  .get(async (req, res, next) => {
+  .get(async (req, res, next) => { //admin
     try {
       const users = await userService.getAll();
       response.responseSuccess(res, users);
@@ -81,7 +81,7 @@ adminRouter.route("/user")
     }
   })
   //delete all user
-  .delete(async (req, res, next) => {
+  .delete(async (req, res, next) => { //admin
     try {
       const result = await userService.deleteAll();
       response.responseSuccess(res, result);
@@ -95,7 +95,7 @@ adminRouter.route("/user")
 
 adminRouter.route("/user/:username")
  //update for admin
-  .put(async (req, res, next) => {
+  .put(async (req, res, next) => { //admin
     try {
       if(req.body.password != null){
         var salt = await bcrypt.genSalt(10);
@@ -113,7 +113,7 @@ adminRouter.route("/user/:username")
     }
   })
   //get by username
-  .get(async (req, res, next) => {
+  .get(async (req, res, next) => { //admin
     try {
       const result = await userService.getByUsername(req.params.username);
       if (result == null) {
@@ -126,7 +126,7 @@ adminRouter.route("/user/:username")
     }
   })
   //delete user by username
-  .delete(async (req, res, next) => {
+  .delete(async (req, res, next) => { //admin
     try {
       const result = await userService.deleteByUsername(req.params.username);
       if (result == null) {
@@ -141,8 +141,5 @@ adminRouter.route("/user/:username")
   .post(async (req, res, next) => {
     response.responseFailed(res, 404, "Not Found");
   })
-
-
-  
 
   module.exports = adminRouter;

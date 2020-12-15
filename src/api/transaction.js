@@ -7,10 +7,11 @@ const response = require("../util/response");
 
 const transactionRouter = express.Router();
 
-transactionRouter.route("/hotel/:username")
+transactionRouter.route("/hotel/:username") //user dan admin
 //post transaksi hotel
   .post(async (req, res, next) => {
     try {
+      
       const result = await userService.getByUsername(req.params.username);
       if (result == null) {
         response.responseFailed(res, 404, "User not found");
@@ -23,7 +24,7 @@ transactionRouter.route("/hotel/:username")
     }
   })
   //get transaksi hotel by username
-  .get(async (req, res, next) => {
+  .get(async (req, res, next) => { //user dan admin
     try {
       const result = await userService.getByUsername(req.params.username);
       if (result == null) {
@@ -37,7 +38,7 @@ transactionRouter.route("/hotel/:username")
     }
   })
 
-transactionRouter.route("/destination/:username")
+transactionRouter.route("/destination/:username") //user dan admin
   //post transaksi tempatwisata
     .post(async (req, res, next) => {
       try {
@@ -53,7 +54,7 @@ transactionRouter.route("/destination/:username")
       }
     })
     //get transaksi destination by username
-    .get(async (req, res, next) => {
+    .get(async (req, res, next) => { //user dan admin
       try {
         const result = await userService.getByUsername(req.params.username);
         if (result == null) {
@@ -67,7 +68,7 @@ transactionRouter.route("/destination/:username")
       }
     })
 
-transactionRouter.route("/tour/:username")
+transactionRouter.route("/tour/:username") //user dan admin
     //post transaksi paket wisata
     .post(async (req, res, next) => {
         try {
@@ -83,7 +84,7 @@ transactionRouter.route("/tour/:username")
         }
     })
     //get transaction tour by username
-    .get(async (req, res, next) => {
+    .get(async (req, res, next) => { //user dan admin
       try {
         const result = await userService.getByUsername(req.params.username);
         if (result == null) {
@@ -99,7 +100,7 @@ transactionRouter.route("/tour/:username")
 
 transactionRouter.route("/hotel/:username/:idHotel")
   //get transaksi hotel by username and id
-  .get(async (req, res, next) => {
+  .get(async (req, res, next) => { //user dan admin
     try {
       const result = await userService.getByUsername(req.params.username);
       if (result == null) {
@@ -113,7 +114,7 @@ transactionRouter.route("/hotel/:username/:idHotel")
     }
   })
   //put transaksi hotel by username and id
-  .put(async (req, res, next) => {
+  .put(async (req, res, next) => { //user dan admin
     try {
       const result = await userService.getByUsername(req.params.username);
       if (result == null) {
@@ -143,7 +144,7 @@ transactionRouter.route("/hotel/:username/:idHotel")
     }
   })
 
-transactionRouter.route("/destination/:username/:idDestination")
+transactionRouter.route("/destination/:username/:idDestination") //user dan admin
   //get transaksi destination by username and id
   .get(async (req, res, next) => {
     try {
@@ -159,7 +160,7 @@ transactionRouter.route("/destination/:username/:idDestination")
     }
   })
   //put transaksi destination by username and id
-  .put(async (req, res, next) => {
+  .put(async (req, res, next) => { //user dan admin
     try {
       const result = await userService.getByUsername(req.params.username);
       if (result == null) {
@@ -192,7 +193,7 @@ transactionRouter.route("/destination/:username/:idDestination")
 
 transactionRouter.route("/tour/:username/:idTour")
  //get transaksi tour by username and id
- .get(async (req, res, next) => {
+ .get(async (req, res, next) => { //user dan admin
   try {
     const result = await userService.getByUsername(req.params.username);
     if (result == null) {
@@ -207,7 +208,7 @@ transactionRouter.route("/tour/:username/:idTour")
 })
 
 //put transaksi tour by username and id
-.put(async (req, res, next) => {
+.put(async (req, res, next) => { //user dan admin
   try {
     const result = await userService.getByUsername(req.params.username);
     if (result == null) {
@@ -238,9 +239,9 @@ transactionRouter.route("/tour/:username/:idTour")
   }
 })
 
-transactionRouter.route("/all/hotel")
+transactionRouter.route("/all/hotel") 
 //get all transaction hotel
- .get(async (req, res, next) => {
+ .get(async (req, res, next) => {//admin
   try {
     const result = await userService.getAll();
     if (result == null) {
@@ -269,7 +270,7 @@ transactionRouter.route("/all/hotel")
 
 transactionRouter.route("/all/destination")
  //get all transaction destination
- .get(async (req, res, next) => {
+ .get(async (req, res, next) => {//admin
   try {
     const result = await userService.getAll();
     if (result == null) {
@@ -298,7 +299,7 @@ transactionRouter.route("/all/destination")
 
 transactionRouter.route("/all/tour")
  //get all transaction destination
- .get(async (req, res, next) => {
+ .get(async (req, res, next) => { //admin
   try {
     const result = await userService.getAll();
     if (result == null) {

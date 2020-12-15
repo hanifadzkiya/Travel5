@@ -4,12 +4,12 @@ const transporter = nodemailer.createTransport({
     port: 465,
     secure: true,
     auth: {
-        user: 'sivilchain@gmail.com',
-        pass: '123Sivil' // naturally, replace both with your real credentials or an application-specific password
+        user: process.env.EMAIL_ADDRESS,
+        pass: process.env.EMAIL_PASSWORD // naturally, replace both with your real credentials or an application-specific password
     }
 });
 const mailOptions = {
-    from: 'sivilchain@gmail.com',
+    from: process.env.EMAIL_ADDRESS,
     to: '',
     subject: 'Link untuk Reset Password',
     text: '',  

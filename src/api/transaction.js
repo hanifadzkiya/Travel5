@@ -11,7 +11,6 @@ transactionRouter.route("/hotel/:username") //user dan admin
 //post transaksi hotel
   .post(async (req, res, next) => {
     try {
-      
       const result = await userService.getByUsername(req.params.username);
       if (result == null) {
         response.responseFailed(res, 404, "User not found");

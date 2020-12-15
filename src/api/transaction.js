@@ -126,12 +126,14 @@ transactionRouter.route("/hotel/:username/:idHotel")
         response.responseFailed(res, 404, "Hotel not found");
         return;
       }
+      req.body.totalTransaksi = req.body.totalTransaksi || hasil.totalTransaksi;
+      req.body.start_date = req.body.start_date || hasil.start_date;
+      req.body.end_date = req.body.end_date || hasil.end_date;
       hasil.remove();
       result.save(async function (err,result){
         if(err){
           console.log(err);
-          response.responseFailed(res, 404, "Tour not found");
-
+          response.responseFailed(res, 404, "Hotel not found");
         }else{
           const transaksi = await transactionService.insertTransaction(req.params.username, 'transactionHotel', req.body)
           response.responseSuccess(res, transaksi);
@@ -170,6 +172,9 @@ transactionRouter.route("/destination/:username/:idDestination") //user dan admi
         response.responseFailed(res, 404, "Destination not found");
         return;
       }
+      req.body.totalTransaksi = req.body.totalTransaksi || hasil.totalTransaksi;
+      req.body.start_date = req.body.start_date || hasil.start_date;
+      req.body.end_date = req.body.end_date || hasil.end_date;
       hasil.remove();
       result.save(async function (err,result){
         if(err){
@@ -215,6 +220,9 @@ transactionRouter.route("/tour/:username/:idTour")
       response.responseFailed(res, 404, "Tour not found");
       return;
     }
+    req.body.totalTransaksi = req.body.totalTransaksi || hasil.totalTransaksi;
+    req.body.start_date = req.body.start_date || hasil.start_date;
+    req.body.end_date = req.body.end_date || hasil.end_date;
     hasil.remove();
     result.save(async function (err,result){
       if(err){

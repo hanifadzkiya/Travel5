@@ -1,5 +1,6 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const userService = require("../services/userService");
 const response = require("../util/response");
@@ -92,11 +93,4 @@ userRouter.route("/profile")
       response.responseFailed(res, 500, err.message);
     }
   })
-
-//jwt
-function generateAccessToken(username) {
-  // expires after half and hour (1800 seconds = 30 minutes)
-  return jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: '1800s' });
-}
-
 module.exports = userRouter;

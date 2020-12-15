@@ -10,6 +10,12 @@ adminRouter.route("/register")
 //register for admin
   .post(async (req, res, next) => {
     try {
+      //add foto
+      var file = req.files.foto;
+      var ext = file.name.split(".").pop();
+      file.name = Date.now() + '.'+ext;
+      await file.mv('./public/images/'+file.name);
+      req.body.foto = file.name;      
       var salt = await bcrypt.genSalt(10);
       var hash = await bcrypt.hash(req.body.password, salt);
       req.body.password = hash;

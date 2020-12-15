@@ -38,7 +38,28 @@ const authenticateTokenAdmin = (req, res, next) => {
       res.send({'message' : 'UNAUTHORIZED'});
     }
   }
+
+//middleware JWT Reset Passwod
+const authenticateTokenResetPassword = (req,res,next) => {
+  const token = req.params.token;
+  try{
+    var data = jwt.verify(token, process.env.TOKEN_SECRET);
+    if(data.reset_password == 1){
+      next();
+    }else{
+      res.status(403)
+      res.send({'message' : 'UNAUTHORIZED'});
+    }
+    
+  }catch(err){
+    console.log('UNAUTHORIZED');
+    res.status(403)
+    res.send({'message' : 'UNAUTHORIZED'});
+  }
+}
+
   module.exports = {
     authenticateTokenAdmin,
-    authenticateTokenUser
+    authenticateTokenUser,
+    authenticateTokenResetPassword
   };

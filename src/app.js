@@ -3,9 +3,10 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-const jwtService = require("./services/jwtService");
+var bodyparser = require("body-parser");
 const db = require("./models/db");
-
+const fileUpload = require('express-fileupload');
+const jwtService = require("./services/jwtService");
 
 var indexRouter = require("./api/index");
 const hotelRouter = require("./api/hotel");
@@ -20,8 +21,12 @@ db()
   .catch((err) => `Error koneksi database ${err.message}`);
 
 app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+// app.use(express.json());
+//app.use(express.urlencoded({ extended: false }));
+app.use(fileUpload());
+
+app.use(bodyparser.json());
+app.use(bodyparser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.resolve(process.cwd(), "public")));
 

@@ -31,7 +31,7 @@ adminRouter.route("/register")
     response.responseFailed(res, 404, "Not Found");
   });
 
-adminRouter.route("/login")
+/*adminRouter.route("/login")
 //login for admin
   .post(async (req, res, next) => {
     try {
@@ -58,7 +58,7 @@ adminRouter.route("/login")
   })
   .delete(async (req, res, next) => {
     response.responseFailed(res, 404, "Not Found");
-  })
+  })*/
 
 
 adminRouter.route("/user")

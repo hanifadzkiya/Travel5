@@ -21,13 +21,13 @@ userRouter
   .post(async (req, res, next) => {
     try {
       const result = await userService.getByUsername(req.body.username);
-      if (result == null) {
-        response.responseFailed(res, 404, "Login failed");
+      if (result == null || !result.isVerified) {
+        response.responseFailed(res, 401, "Login failed");
         return;
       }
       var hasil = await bcrypt.compare(req.body.password, result.password);
       if (hasil == false) {
-        response.responseFailed(res, 404, "Login failed");
+        response.responseFailed(res, 401, "Login failed");
         return;
       }
       const token = generateAccessToken({

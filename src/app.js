@@ -29,12 +29,9 @@ app.use(express.static(path.resolve(process.cwd(), "public")));
 
 //app.use("/", indexRouter);
 app.use("/hotel", hotelRouter);
-<<<<<<< HEAD
 app.use("/", userRouter);
 app.use("/admin", adminRouter);
 
-=======
->>>>>>> 04fe729192358bc8d9b8a2797a922f49cfd7c86f
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));

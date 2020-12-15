@@ -14,6 +14,7 @@ const hotelRouter = require("./api/hotel");
 const userRouter = require("./api/user");
 const adminRouter = require("./api/admin");
 const transactionRouter = require("./api/transaction");
+const paketwisataRouter = require("./api/paketWisata");
 
 var app = express();
 
@@ -33,6 +34,7 @@ app.use(express.static(path.resolve(process.cwd(), "public")));
 
 //app.use("/", indexRouter);
 app.use("/hotel", hotelRouter);
+app.use("/paketwisata", paketwisataRouter);
 app.use("/", userRouter);
 app.use("/admin", jwtService.authenticateTokenAdmin, adminRouter);
 app.use("/transaction", transactionRouter);

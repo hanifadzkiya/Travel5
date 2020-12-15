@@ -3,7 +3,11 @@ const bcrypt = require("bcrypt");
 
 const userService = require("../services/userService");
 const response = require("../util/response");
+const emailUtil = require("../util/email-util");
+const commonUtil = require("../util/commonUtil");
 const fs = require("fs");
+const jwt = require("jsonwebtoken");
+const ejs = require("ejs");
 
 const userRouter = express.Router();
 //const upload = require("../util/multer");
@@ -53,8 +57,40 @@ userRouter.route("/register")
       req.body.password = hash;
       req.body.role = 0;
       const user = req.body;
+
+      user.isVerified = false;
       const users = await userService.add(user);
+
+      sendRegisterEmailVerification(req.body);
       response.responseSuccess(res, users);
+    } catch (err) {
+      response.responseFailed(res, 500, err.message);
+    }
+  })
+
+  .put(async (req, res, next) => {
+    response.responseFailed(res, 404, "Not Found");
+  })
+
+  .get(async (req, res, next) => {
+    response.responseFailed(res, 404, "Not Found");
+  })
+
+  .delete(async (req, res, next) => {
+    response.responseFailed(res, 404, "Not Found");
+  });
+
+  userRouter.route("/register/:token")
+  .post(async (req, res, next) => {
+    try {
+      //add foto
+      const token = req.params.token;
+      const result = await userService.verifyRegister(token);
+      if (result == null) {
+        response.responseFailed(res, 401, "Unauthorized, failed to process request");
+        return;
+      }
+      response.responseSuccess(res, result);
     } catch (err) {
       response.responseFailed(res, 500, err.message);
     }
@@ -120,8 +156,27 @@ userRouter.route("/:username/transaksihotel")
     }
   })
 
+sendRegisterEmailVerification = async (user) => {
+  const token = generateAccessToken({
+    username : user.username,
+    "command": "register"
+  });
+  const verifyLink = `http://${commonUtil.getPublicIp()}/register/${token}`;
+  const emailContent = await ejs.renderFile(
+    "./src/view/email-verification.ejs",
+    { user: user.username, verifyLink }
+  );
+    
+  emailUtil.sendEmail(user.email, "Welcome to Traveldung ! Please Register Your Email ..", emailContent);
+}
+
   //post transaksi paket wisata
   //post transaksi tempat wisata
 
+//jwt
+function generateAccessToken(username) {
+  // expires after half and hour (1800 seconds = 30 minutes)
+  return jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: '1800s' });
+}
 
 module.exports = userRouter;

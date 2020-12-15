@@ -1,6 +1,6 @@
 const config = require("../config/config");
 
-const getPublicIp = async () => {
+const getPublicIp = () => {
   if (config.NODE_ENV == "production") {
     return `54.163.242.157:${config.PORT}`;
   }

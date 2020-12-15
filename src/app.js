@@ -33,10 +33,8 @@ app.use(express.static(path.resolve(process.cwd(), "public")));
 //app.use("/", indexRouter);
 app.use("/hotel", hotelRouter);
 app.use("/", userRouter);
-app.use("/admin", adminRouter);
-app.use("/fe/transaction", transactionRouter);
-app.use("/transaction",jwtService.authenticateTokenUser, transactionRouter);
-
+app.use("/admin", jwtService.authenticateTokenAdmin, adminRouter);
+app.use("/transaction", transactionRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

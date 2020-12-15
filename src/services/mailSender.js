@@ -21,9 +21,7 @@ const kirimEmail = (email,link) =>{
     mailOptions.text = link;
     transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
-            console.log('puuuu : '+error);
-            console.log(info);
-            console.log(mailOptions);
+            console.log(error);
         }
     });
 };

@@ -1,5 +1,6 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const userService = require("../services/userService");
 const response = require("../util/response");
@@ -54,12 +55,6 @@ userRouter.route("/login")
 userRouter.route("/register")
   .post(async (req, res, next) => {
     try {
-      //add foto
-      var file = req.files.foto;
-      var ext = file.name.split(".").pop();
-      file.name = Date.now() + '.'+ext;
-      await file.mv('./public/images/'+file.name);
-      req.body.foto = file.name;      
       var salt = await bcrypt.genSalt(10);
       var hash = await bcrypt.hash(req.body.password,salt);
       req.body.password = hash;
@@ -84,17 +79,6 @@ userRouter.route("/register")
 userRouter.route("/profile")
   .put(async (req, res, next) => { //user dan admin
     try {
-      if(req.files.foto != null){
-        const result = await userService.getByUsername(req.body.username);
-        const filePath = './public/images/'+result.foto;
-        fs.unlinkSync(filePath);
-        //add foto
-        var file = req.files.foto;
-        var ext = file.name.split(".").pop();
-        file.name = Date.now() + '.'+ext;
-        await file.mv('./public/images/'+file.name);
-        req.body.foto = file.name;      
-      }
       if(req.body.password != null){
         var salt = await bcrypt.genSalt(10);
         var hash = await bcrypt.hash(req.body.password,salt);

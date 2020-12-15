@@ -7,12 +7,14 @@
     "dev": "nodemon ./src/bin/www"
   },
   "dependencies": {
+    "bcrypt": "^5.0.0",
     "axios": "^0.21.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
     "ejs": "^3.1.5",
     "express": "~4.16.1",
+    "express-fileupload": "^1.2.0",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "migrate": "^1.7.0",

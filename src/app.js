@@ -6,10 +6,13 @@ var logger = require("morgan");
 var bodyparser = require("body-parser");
 const db = require("./models/db");
 const fileUpload = require('express-fileupload');
+const jwtService = require("./services/jwtService");
+
 var indexRouter = require("./api/index");
 const hotelRouter = require("./api/hotel");
 const userRouter = require("./api/user");
 const adminRouter = require("./api/admin");
+const transactionRouter = require("./api/transaction");
 
 var app = express();
 
@@ -30,7 +33,8 @@ app.use(express.static(path.resolve(process.cwd(), "public")));
 //app.use("/", indexRouter);
 app.use("/hotel", hotelRouter);
 app.use("/", userRouter);
-app.use("/admin", adminRouter);
+app.use("/admin", jwtService.authenticateTokenAdmin, adminRouter);
+app.use("/transaction", transactionRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

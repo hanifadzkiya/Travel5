@@ -5,6 +5,7 @@ const hotels = require("../models/hotels");
 const Hotels = require("../models/hotels");
 const fileUtils = require("../util/fileUtils");
 const commonUtils = require("../util/commonUtil");
+const { ObjectId } = require("mongodb");
 
 const getAll = async () => {
   const hotels = await Hotels.find();
@@ -79,6 +80,60 @@ const deleteById = async (id) => {
   return hotel;
 };
 
+const addReview = async (id, review) => {
+  const hotel = await Hotels.findOne({
+    _id: id,
+    reviews: { $elemMatch: { userId: review.userId } },
+  });
+  if (hotel != null) {
+    throw new Error("User is already review");
+  }
+  return await Hotels.findOneAndUpdate(
+    { _id: id },
+    { $push: { reviews: review } },
+    { new: true }
+  );
+};
+
+const deleteAllReviews = async (id) => {
+  return await Hotels.update({ _id: id }, { $set: { reviews: [] } });
+};
+
+const getReviewUserInHotel = async (hotelId, userId) => {
+  const hotel = await get(hotelId);
+  const review = hotel.reviews.filter((x) => (x.userId = userId));
+  if (review.length == 0) {
+    return null;
+  }
+  return review[0];
+};
+
+const deleteReviewInHotelByUser = async (hotelId, userId) => {
+  return await Hotels.findByIdAndUpdate(
+    hotelId,
+    { $pull: { reviews: { userId: userId } } },
+    { new: true }
+  );
+};
+
+const updateReviewInHotelByUser = async (hotelId, userId, newReview) => {
+  console.log(ObjectId.isValid(userId));
+  const hotel = await Hotels.findById({ _id: hotelId });
+  hotel.reviews.map((review) => {
+    if (review.userId != userId) {
+      return review;
+    }
+    newReview._id = review._id;
+    newReview.userId = userId;
+    newReview.rating = newReview.rating || review.rating;
+    newReview.review = newReview.review || review.review;
+    return newReview;
+  });
+
+  const result = await hotel.save();
+  return newReview;
+};
+
 module.exports = {
   getAll,
   add,
@@ -86,4 +141,9 @@ module.exports = {
   get,
   update,
   deleteById,
+  addReview,
+  deleteAllReviews,
+  getReviewUserInHotel,
+  deleteReviewInHotelByUser,
+  updateReviewInHotelByUser,
 };

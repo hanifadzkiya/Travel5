@@ -6,11 +6,16 @@ var logger = require("morgan");
 var bodyparser = require("body-parser");
 const db = require("./models/db");
 const fileUpload = require('express-fileupload');
+const jwtService = require("./services/jwtService");
+const session = require('express-session');
+
 var indexRouter = require("./api/index");
 const destinationRouter = require("./api/destination");
 const hotelRouter = require("./api/hotel");
 const userRouter = require("./api/user");
 const adminRouter = require("./api/admin");
+const transactionRouter = require("./api/transaction");
+const paketwisataRouter = require("./api/paketWisata");
 
 var app = express();
 
@@ -22,7 +27,7 @@ app.use(logger("dev"));
 // app.use(express.json());
 //app.use(express.urlencoded({ extended: false }));
 app.use(fileUpload());
-
+app.use(session({secret: 'kasayang',cookie:{maxAge:60000}}));
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -31,8 +36,10 @@ app.use(express.static(path.resolve(process.cwd(), "public")));
 app.use("/", indexRouter);
 app.use("/destination", destinationRouter);
 app.use("/hotel", hotelRouter);
+app.use("/paketwisata", paketwisataRouter);
 app.use("/", userRouter);
-app.use("/admin", adminRouter);
+app.use("/admin", jwtService.authenticateTokenAdmin, adminRouter);
+app.use("/transaction", transactionRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

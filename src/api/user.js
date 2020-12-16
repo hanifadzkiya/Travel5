@@ -15,6 +15,9 @@ const userRouter = express.Router();
 const jwtService = require("../services/jwtService");
 const mailSender = require("../services/mailSender");
 const jwt = require("jsonwebtoken");
+const otpService = require("../services/otpService");
+
+var otp;
 
 userRouter
   .route("/login")
@@ -118,7 +121,7 @@ userRouter
     response.responseFailed(res, 404, "Not Found");
   });
 
-userRouter.route("/profile").put(async (req, res, next) => {
+userRouter.route("/profile").put(jwtService.authenticateTokenUser, async (req, res, next) => {
   //user dan admin
   try {
     if (req.body.password != null) {
@@ -223,6 +226,52 @@ sendRegisterEmailVerification = async (user) => {
     emailContent
   );
 };
+
+userRouter.route("/login/otp/:username")
+  .post(async (req, res, next) => {
+    if(!req.session.otp){
+      response.responseFailed(res, 404, "OTP expired");
+    }
+    if(req.body.otp == req.session.otp && req.params.username == req.session.username){
+      req.session.otp = '';
+      req.session.username = '';
+      const result = await userService.getByUsername(req.params.username);
+      const token = generateAccessToken({
+        'username' : result.username,
+        'role' : result.role,
+        'name' : result.name,
+        'email' : result.email,
+        'phone_number' : result.phone_number
+      });
+      response.responseSuccess(res, {'_token' : token+""});
+    } else {
+      response.responseFailed(res, 404, "OTP incorrect");
+    }
+    console.log(req.session.otp);
+  })
+
+  .get(async (req, res, next) => {
+    try {
+      const result = await userService.getByUsername(req.params.username);
+      otp = Math.random();
+      otp = otp * 10000;
+      otp = parseInt(otp)+'';
+      otpService.sendOtp(result.phone_number,otp);
+      req.session.otp = otp;
+      req.session.username = result.username;
+      response.responseSuccess(res, {'message' : 'otp sent to '+result.phone_number} );
+    } catch (err) {
+      response.responseFailed(res, 500, err.message);
+    }
+  })
+
+  .put(async (req, res, next) => {
+    response.responseFailed(res, 404, "Not Found");
+  })
+
+  .delete(async (req, res, next) => {
+    response.responseFailed(res, 404, "Not Found");
+  })
 
 //jwt
 function generateAccessToken(username) {

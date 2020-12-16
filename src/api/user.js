@@ -7,14 +7,12 @@ const response = require("../util/response");
 const emailUtil = require("../util/email-util");
 const commonUtil = require("../util/commonUtil");
 const fs = require("fs");
-const jwt = require("jsonwebtoken");
 const ejs = require("ejs");
 
 const userRouter = express.Router();
 //const upload = require("../util/multer");
 const jwtService = require("../services/jwtService");
 const mailSender = require("../services/mailSender");
-const jwt = require("jsonwebtoken");
 const otpService = require("../services/otpService");
 
 var otp;
@@ -121,24 +119,26 @@ userRouter
     response.responseFailed(res, 404, "Not Found");
   });
 
-userRouter.route("/profile").put(jwtService.authenticateTokenUser, async (req, res, next) => {
-  //user dan admin
-  try {
-    if (req.body.password != null) {
-      var salt = await bcrypt.genSalt(10);
-      var hash = await bcrypt.hash(req.body.password, salt);
-      req.body.password = hash;
+userRouter
+  .route("/profile")
+  .put(jwtService.authenticateTokenUser, async (req, res, next) => {
+    //user dan admin
+    try {
+      if (req.body.password != null) {
+        var salt = await bcrypt.genSalt(10);
+        var hash = await bcrypt.hash(req.body.password, salt);
+        req.body.password = hash;
+      }
+      const result = await userService.update(req.body.username, req.body);
+      if (result == null) {
+        response.responseFailed(res, 404, "User not found");
+        return;
+      }
+      response.responseSuccess(res, result);
+    } catch (err) {
+      response.responseFailed(res, 500, err.message);
     }
-    const result = await userService.update(req.body.username, req.body);
-    if (result == null) {
-      response.responseFailed(res, 404, "User not found");
-      return;
-    }
-    response.responseSuccess(res, result);
-  } catch (err) {
-    response.responseFailed(res, 500, err.message);
-  }
-});
+  });
 
 userRouter
   .route("/forgetpassword/:username")
@@ -227,23 +227,27 @@ sendRegisterEmailVerification = async (user) => {
   );
 };
 
-userRouter.route("/login/otp/:username")
+userRouter
+  .route("/login/otp/:username")
   .post(async (req, res, next) => {
-    if(!req.session.otp){
+    if (!req.session.otp) {
       response.responseFailed(res, 404, "OTP expired");
     }
-    if(req.body.otp == req.session.otp && req.params.username == req.session.username){
-      req.session.otp = '';
-      req.session.username = '';
+    if (
+      req.body.otp == req.session.otp &&
+      req.params.username == req.session.username
+    ) {
+      req.session.otp = "";
+      req.session.username = "";
       const result = await userService.getByUsername(req.params.username);
       const token = generateAccessToken({
-        'username' : result.username,
-        'role' : result.role,
-        'name' : result.name,
-        'email' : result.email,
-        'phone_number' : result.phone_number
+        username: result.username,
+        role: result.role,
+        name: result.name,
+        email: result.email,
+        phone_number: result.phone_number,
       });
-      response.responseSuccess(res, {'_token' : token+""});
+      response.responseSuccess(res, { _token: token + "" });
     } else {
       response.responseFailed(res, 404, "OTP incorrect");
     }
@@ -255,11 +259,13 @@ userRouter.route("/login/otp/:username")
       const result = await userService.getByUsername(req.params.username);
       otp = Math.random();
       otp = otp * 10000;
-      otp = parseInt(otp)+'';
-      otpService.sendOtp(result.phone_number,otp);
+      otp = parseInt(otp) + "";
+      otpService.sendOtp(result.phone_number, otp);
       req.session.otp = otp;
       req.session.username = result.username;
-      response.responseSuccess(res, {'message' : 'otp sent to '+result.phone_number} );
+      response.responseSuccess(res, {
+        message: "otp sent to " + result.phone_number,
+      });
     } catch (err) {
       response.responseFailed(res, 500, err.message);
     }
@@ -271,7 +277,7 @@ userRouter.route("/login/otp/:username")
 
   .delete(async (req, res, next) => {
     response.responseFailed(res, 404, "Not Found");
-  })
+  });
 
 //jwt
 function generateAccessToken(username) {

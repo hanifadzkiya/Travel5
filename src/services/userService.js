@@ -20,6 +20,10 @@ const getByUsername = async (username) => {
   return await Users.findOne({ username: username });
 };
 
+const getByEmail = async (email) => {
+  return await Users.findOne({ email: email });
+};
+
 //edit profile
 const update = async (username, user) => {
   return await Users.findOneAndUpdate(
@@ -54,6 +58,7 @@ module.exports = {
   add,
   deleteAll,
   getByUsername,
+  getByEmail,
   update,
   deleteByUsername,
   insertTransactionHotel,

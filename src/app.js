@@ -15,7 +15,7 @@ const userRouter = require("./api/user");
 const adminRouter = require("./api/admin");
 const transactionRouter = require("./api/transaction");
 const paketwisataRouter = require("./api/paketWisata");
-
+const passport = require('passport');
 var app = express();
 
 db()
@@ -26,12 +26,19 @@ app.use(logger("dev"));
 // app.use(express.json());
 //app.use(express.urlencoded({ extended: false }));
 app.use(fileUpload());
-app.use(session({secret: 'kasayang',cookie:{maxAge:60000}}));
+app.use(session({
+  name:'antyka',
+  secret: 'antykamdm',
+  resave:false,
+  saveUninitialized:true,
+  cookie:{maxAge:60000}
+}));
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.resolve(process.cwd(), "public")));
-
+app.use(passport.initialize());
+app.use(passport.session());
 //app.use("/", indexRouter);
 app.use("/hotel", hotelRouter);
 app.use("/paketwisata", paketwisataRouter);

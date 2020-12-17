@@ -58,8 +58,14 @@ const authenticateTokenResetPassword = (req,res,next) => {
   }
 }
 
+const generateAccessToken = (username)=> {
+  // expires after half and hour (1800 seconds = 30 minutes)
+  return jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: "1800s" });
+}
+
   module.exports = {
     authenticateTokenAdmin,
     authenticateTokenUser,
-    authenticateTokenResetPassword
+    authenticateTokenResetPassword,
+    generateAccessToken
   };

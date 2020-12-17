@@ -10,6 +10,7 @@ const jwtService = require("./services/jwtService");
 const session = require('express-session');
 
 var indexRouter = require("./api/index");
+const destinationRouter = require("./api/destination");
 const hotelRouter = require("./api/hotel");
 const userRouter = require("./api/user");
 const adminRouter = require("./api/admin");
@@ -32,7 +33,8 @@ app.use(bodyparser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.resolve(process.cwd(), "public")));
 
-//app.use("/", indexRouter);
+app.use("/", indexRouter);
+app.use("/destination", destinationRouter);
 app.use("/hotel", hotelRouter);
 app.use("/paketwisata", paketwisataRouter);
 app.use("/", userRouter);

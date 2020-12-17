@@ -15,6 +15,8 @@ const userRouter = express.Router();
 const jwtService = require("../services/jwtService");
 const mailSender = require("../services/mailSender");
 const otpService = require("../services/otpService");
+const passport = require('passport');
+require('../services/googleService');
 
 var otp;
 
@@ -33,7 +35,7 @@ userRouter
         response.responseFailed(res, 401, "Login failed");
         return;
       }
-      const token = generateAccessToken({
+      const token = jwtService.generateAccessToken({
         username: result.username,
         role: result.role,
         name: result.name,
@@ -151,7 +153,7 @@ userRouter
         response.responseFailed(res, 404, "Username not found");
         return;
       }
-      const token = generateAccessToken({
+      const token = jwtService.generateAccessToken({
         username: result.username,
         reset_password: 1,
       });
@@ -212,7 +214,7 @@ userRouter
   });
 
 sendRegisterEmailVerification = async (user) => {
-  const token = generateAccessToken({
+  const token = jwtService.generateAccessToken({
     username: user.username,
     command: "register",
   });
@@ -230,7 +232,7 @@ sendRegisterEmailVerification = async (user) => {
 };
 
 userRouter
-  .route("/login/otp/:username")
+.route("/login/otp/:username")
   .post(async (req, res, next) => {
     if (!req.session.otp) {
       response.responseFailed(res, 404, "OTP expired");
@@ -242,7 +244,7 @@ userRouter
       req.session.otp = "";
       req.session.username = "";
       const result = await userService.getByUsername(req.params.username);
-      const token = generateAccessToken({
+      const token = jwtService.generateAccessToken({
         username: result.username,
         role: result.role,
         name: result.name,
@@ -255,8 +257,7 @@ userRouter
     }
     console.log(req.session.otp);
   })
-
-  .get(async (req, res, next) => {
+    .get(async (req, res, next) => {
     try {
       const result = await userService.getByUsername(req.params.username);
       otp = Math.random();
@@ -273,18 +274,37 @@ userRouter
     }
   })
 
+userRouter
+  .route("/auth/google")
+  .post(async (req, res, next) => {
+    response.responseFailed(res, 404, "Not Found");
+  })
+  .get(passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login','email'] }))
   .put(async (req, res, next) => {
     response.responseFailed(res, 404, "Not Found");
   })
+  .delete(async (req, res, next) => {
+    response.responseFailed(res, 404, "Not Found");
+  });
 
+userRouter
+  .route("/auth/google/callback")
+  .post(async (req, res, next) => {
+    response.responseFailed(res, 404, "Not Found");
+  })
+  .get(passport.authenticate('google', { failureRedirect: '/google/failed' }),async (req, res) => {
+    console.log('success');
+    //res.redirect('/google/success');
+    res.json(req.user);
+  })
+  .put(async (req, res, next) => {
+    response.responseFailed(res, 404, "Not Found");
+  })
   .delete(async (req, res, next) => {
     response.responseFailed(res, 404, "Not Found");
   });
 
 //jwt
-function generateAccessToken(username) {
-  // expires after half and hour (1800 seconds = 30 minutes)
-  return jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: "1800s" });
-}
+
 
 module.exports = userRouter;

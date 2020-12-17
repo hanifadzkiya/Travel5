@@ -33,23 +33,18 @@ jobs:
               else
                   echo "Skipped"
               fi
-      # - add_ssh_keys
-      # - run: 
-      #       name: Deploy to EC2
-      #       command: |
-      #           if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "feature/circle-ci" ] 
-      #           then 
-      #               docker build -t $DOCKER_USER/travel .
-      #               echo $DOCKERHUB_PASSWORD | docker login -u $DOCKER_USER --password-stdin
-      #               docker push $DOCKER_USER/travel
-      #               ssh -o StrictHostKeyChecking=no ubuntu@54.163.242.157 \
-      #               "echo Start deploy && \
-      #               docker stop $(docker ps -a -q) && \
-      #               docker rm $(docker ps -a -q) && \
-      #               docker pull hanifadzkiya/travel && \
-      #               docker run -d -p 3000:3000 hanifadzkiya/travel && \
-      #               echo deploy end"
-      #           else 
-      #               echo "Skipped"; 
-      #           fi
+      - add_ssh_keys
+      - run: 
+            name: Deploy to EC2
+            command: |
+                if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "feature/cd" ] 
+                then 
+                    docker build -t $DOCKER_USER/travel .
+                    echo $DOCKERHUB_PASSWORD | docker login -u $DOCKER_USER --password-stdin
+                    docker push $DOCKER_USER/travel
+                    ssh -o StrictHostKeyChecking=no ubuntu@54.163.242.157 \
+                    "./install.sh"
+                else 
+                    echo "Skipped"; 
+                fi
         

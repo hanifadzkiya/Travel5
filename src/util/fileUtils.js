@@ -6,7 +6,7 @@ const publicIp = require("public-ip");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "public/images");
+    cb(null, "./public/images");
   },
   filename: function (req, file, cb) {
     let customFileName = crypto.randomBytes(18).toString("hex");

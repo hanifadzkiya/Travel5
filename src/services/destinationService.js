@@ -9,7 +9,7 @@ const getAll = async () => {
   const destinations = await Destinations.find();
   let ip = await commonUtils.getPublicIp();
   for (const destination of destinations) {
-    destination.images = fileUtils.buildFileAddress(ip, destination.images)
+    destination.images = fileUtils.buildFileAddress(ip, destination.images);
   }
   return destinations;
 };

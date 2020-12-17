@@ -24,9 +24,6 @@ db()
   .catch((err) => `Error koneksi database ${err.message}`);
 
 app.use(logger("dev"));
-// app.use(express.json());
-//app.use(express.urlencoded({ extended: false }));
-app.use(fileUpload());
 app.use(session({secret: 'kasayang',cookie:{maxAge:60000}}));
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: false }));

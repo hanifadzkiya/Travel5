@@ -1,11 +1,12 @@
 const express = require("express");
+const bodyParser = require('body-parser');
 
 const fileUtils = require("../util/fileUtils");
 const hotelService = require("../services/hotelService");
 const response = require("../util/response");
 
 const hotelRouter = express.Router();
-
+hotelRouter.use(bodyParser.json());
 hotelRouter
   .route("/:id")
   .get(async (req, res, next) => {
@@ -69,6 +70,7 @@ hotelRouter
   })
   .post(fileUtils.multer.array("photos"), async (req, res, next) => {
     try {
+      console.log(req.body);
       const body = req.body;
       const hotel = {
         name: body.name,

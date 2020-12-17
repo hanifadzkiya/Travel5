@@ -16,6 +16,7 @@ const userRouter = require("./api/user");
 const adminRouter = require("./api/admin");
 const transactionRouter = require("./api/transaction");
 const paketwisataRouter = require("./api/paketWisata");
+const weatherRouter = require("./api/weather");
 const passport = require('passport');
 var app = express();
 
@@ -48,6 +49,7 @@ app.use("/paketwisata", paketwisataRouter);
 app.use("/", userRouter);
 app.use("/admin", jwtService.authenticateTokenAdmin, adminRouter);
 app.use("/transaction", transactionRouter);
+app.use("/weather", weatherRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -9,14 +9,14 @@ const fileUpload = require('express-fileupload');
 const jwtService = require("./services/jwtService");
 const session = require('express-session');
 
-var indexRouter = require("./api/index");
+// var indexRouter = require("./api/index");
 const destinationRouter = require("./api/destination");
 const hotelRouter = require("./api/hotel");
 const userRouter = require("./api/user");
 const adminRouter = require("./api/admin");
 const transactionRouter = require("./api/transaction");
 const paketwisataRouter = require("./api/paketWisata");
-
+const passport = require('passport');
 var app = express();
 
 db()
@@ -24,14 +24,25 @@ db()
   .catch((err) => `Error koneksi database ${err.message}`);
 
 app.use(logger("dev"));
-app.use(session({secret: 'kasayang',cookie:{maxAge:60000}}));
+// app.use(express.json());
+//app.use(express.urlencoded({ extended: false }));
+app.use(fileUpload());
+app.use(session({
+  name:'antyka',
+  secret: 'antykamdm',
+  resave:false,
+  saveUninitialized:true,
+  cookie:{maxAge:60000}
+}));
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.resolve(process.cwd(), "public")));
 
-app.use("/", indexRouter);
+// app.use("/", indexRouter);
 app.use("/destination", destinationRouter);
+app.use(passport.initialize());
+app.use(passport.session());
 app.use("/hotel", hotelRouter);
 app.use("/paketwisata", paketwisataRouter);
 app.use("/", userRouter);

@@ -1,6 +1,7 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const fileUpload = require('express-fileupload');
 
 const userService = require("../services/userService");
 const response = require("../util/response");
@@ -19,6 +20,7 @@ require('../services/googleService');
 
 var otp;
 
+userRouter.use(fileUpload());
 userRouter
   .route("/login")
   .post(async (req, res, next) => {

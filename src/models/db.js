@@ -17,6 +17,6 @@ module.exports = async () => {
   };
 
   console.log(`Connect to mongodb with url ${url} and options ${JSON.stringify(options)}`);
-
+  mongoose.set('debug', true);
   return await mongoose.connect(url, options);
 };

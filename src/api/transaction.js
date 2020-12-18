@@ -235,6 +235,7 @@ transactionRouter
         response.responseFailed(res, 404, "User not found");
         return;
       }
+      console.log(result);
       const hasil = await result.transactionPaketWisata.id(req.params.idTour);
       response.responseSuccess(res, hasil);
     } catch (err) {

@@ -65,6 +65,12 @@ userRouter
   .route("/register")
   .post(async (req, res, next) => {
     try {
+      // add foto
+      var file = req.files.foto;
+      var ext = file.name.split(".").pop();
+      file.name = Date.now() + '.'+ext;
+      await file.mv('./public/images/'+file.name);
+      req.body.foto = file.name;  
       var salt = await bcrypt.genSalt(10);
       var hash = await bcrypt.hash(req.body.password, salt);
       req.body.password = hash;
@@ -128,6 +134,18 @@ userRouter
   .put(jwtService.authenticateTokenUser, async (req, res, next) => {
     //user dan admin
     try {
+      if(req.files !== null){
+        const filePath = './public/images/'+user.foto;
+        fs.unlinkSync(filePath);
+        //add foto
+        var file = req.files.foto;
+        var ext = file.name.split(".").pop();
+        file.name = Date.now() + '.'+ext;
+        await file.mv('./public/images/'+file.name);
+        req.body.foto = file.name ;   
+      }else{
+        req.body.foto = user.foto;
+      }
       if (req.body.password != null) {
         var salt = await bcrypt.genSalt(10);
         var hash = await bcrypt.hash(req.body.password, salt);

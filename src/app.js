@@ -48,7 +48,7 @@ app.use("/hotel", hotelRouter);
 app.use("/paketwisata", paketwisataRouter);
 // app.use(fileUpload());
 app.use("/", userRouter);
-app.use("/admin", jwtService.authenticateTokenAdmin, adminRouter);
+app.use("/admin", adminRouter);
 app.use("/transaction", transactionRouter);
 app.use("/weather", weatherRouter);
 

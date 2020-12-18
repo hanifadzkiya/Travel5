@@ -27,7 +27,7 @@ db()
 app.use(logger("dev"));
 // app.use(express.json());
 //app.use(express.urlencoded({ extended: false }));
-app.use(fileUpload());
+
 app.use(session({
   name:'antyka',
   secret: 'antykamdm',
@@ -46,6 +46,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use("/hotel", hotelRouter);
 app.use("/paketwisata", paketwisataRouter);
+app.use(fileUpload());
 app.use("/", userRouter);
 app.use("/admin", jwtService.authenticateTokenAdmin, adminRouter);
 app.use("/transaction", transactionRouter);

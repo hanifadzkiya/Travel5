@@ -46,7 +46,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use("/hotel", hotelRouter);
 app.use("/paketwisata", paketwisataRouter);
-app.use(fileUpload());
+// app.use(fileUpload());
 app.use("/", userRouter);
 app.use("/admin", jwtService.authenticateTokenAdmin, adminRouter);
 app.use("/transaction", transactionRouter);

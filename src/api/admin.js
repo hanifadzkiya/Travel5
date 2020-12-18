@@ -23,6 +23,7 @@ adminRouter
       req.body.password = hash;
       req.body.role = 1;
       const user = req.body;
+      user.isVerified = true;
       const users = await userService.add(user);
       response.responseSuccess(res, users);
     } catch (err) {

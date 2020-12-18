@@ -1,7 +1,7 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const fileUpload = require('express-fileupload');
+const fileUpload = require("express-fileupload");
 
 const userService = require("../services/userService");
 const response = require("../util/response");
@@ -15,8 +15,8 @@ const userRouter = express.Router();
 const jwtService = require("../services/jwtService");
 const mailSender = require("../services/mailSender");
 const otpService = require("../services/otpService");
-const passport = require('passport');
-require('../services/googleService');
+const passport = require("passport");
+require("../services/googleService");
 
 var otp;
 
@@ -73,9 +73,9 @@ userRouter
       // add foto
       var file = req.files.foto;
       var ext = file.name.split(".").pop();
-      file.name = Date.now() + '.'+ext;
-      await file.mv('./public/images/'+file.name);
-      req.body.foto = file.name;  
+      file.name = Date.now() + "." + ext;
+      await file.mv("./public/images/" + file.name);
+      req.body.foto = file.name;
       var salt = await bcrypt.genSalt(10);
       var hash = await bcrypt.hash(req.body.password, salt);
       req.body.password = hash;
@@ -103,7 +103,7 @@ userRouter
 
 userRouter
   .route("/register/:token")
-  .post(async (req, res, next) => {
+  .put(async (req, res, next) => {
     try {
       //add foto
       const token = req.params.token;
@@ -122,7 +122,7 @@ userRouter
     }
   })
 
-  .put(async (req, res, next) => {
+  .post(async (req, res, next) => {
     response.responseFailed(res, 404, "Not Found");
   })
 
@@ -139,16 +139,16 @@ userRouter
   .put(jwtService.authenticateTokenUser, async (req, res, next) => {
     //user dan admin
     try {
-      if(req.files !== null){
-        const filePath = './public/images/'+user.foto;
+      if (req.files !== null) {
+        const filePath = "./public/images/" + user.foto;
         fs.unlinkSync(filePath);
         //add foto
         var file = req.files.foto;
         var ext = file.name.split(".").pop();
-        file.name = Date.now() + '.'+ext;
-        await file.mv('./public/images/'+file.name);
-        req.body.foto = file.name ;   
-      }else{
+        file.name = Date.now() + "." + ext;
+        await file.mv("./public/images/" + file.name);
+        req.body.foto = file.name;
+      } else {
         req.body.foto = user.foto;
       }
       if (req.body.password != null) {
@@ -255,7 +255,7 @@ sendRegisterEmailVerification = async (user) => {
 };
 
 userRouter
-.route("/login/otp/:username")
+  .route("/login/otp/:username")
   .post(async (req, res, next) => {
     if (!req.session.otp) {
       response.responseFailed(res, 404, "OTP expired");
@@ -280,7 +280,7 @@ userRouter
     }
     console.log(req.session.otp);
   })
-    .get(async (req, res, next) => {
+  .get(async (req, res, next) => {
     try {
       const result = await userService.getByUsername(req.params.username);
       otp = Math.random();
@@ -295,14 +295,18 @@ userRouter
     } catch (err) {
       response.responseFailed(res, 500, err.message);
     }
-  })
+  });
 
 userRouter
   .route("/auth/google")
   .post(async (req, res, next) => {
     response.responseFailed(res, 404, "Not Found");
   })
-  .get(passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login','email'] }))
+  .get(
+    passport.authenticate("google", {
+      scope: ["https://www.googleapis.com/auth/plus.login", "email"],
+    })
+  )
   .put(async (req, res, next) => {
     response.responseFailed(res, 404, "Not Found");
   })
@@ -315,11 +319,14 @@ userRouter
   .post(async (req, res, next) => {
     response.responseFailed(res, 404, "Not Found");
   })
-  .get(passport.authenticate('google', { failureRedirect: '/google/failed' }),async (req, res) => {
-    console.log('success');
-    //res.redirect('/google/success');
-    res.json(req.user);
-  })
+  .get(
+    passport.authenticate("google", { failureRedirect: "/google/failed" }),
+    async (req, res) => {
+      console.log("success");
+      //res.redirect('/google/success');
+      res.json(req.user);
+    }
+  )
   .put(async (req, res, next) => {
     response.responseFailed(res, 404, "Not Found");
   })
@@ -328,6 +335,5 @@ userRouter
   });
 
 //jwt
-
 
 module.exports = userRouter;

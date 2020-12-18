@@ -1,4 +1,4 @@
-version: 2.1
+oversion: 2.1
 
 jobs:
   build:
@@ -39,11 +39,11 @@ jobs:
             command: |
                 if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "fix/error-cd" ] 
                 then 
-                    docker build -t $DOCKER_USER/travel .
-                    echo $DOCKERHUB_PASSWORD | docker login -u $DOCKER_USER --password-stdin
-                    docker push $DOCKER_USER/travel
+                    # docker build -t $DOCKER_USER/travel .
+                    # echo $DOCKERHUB_PASSWORD | docker login -u $DOCKER_USER --password-stdin
+                    # docker push $DOCKER_USER/travel
                     ssh -o StrictHostKeyChecking=no ubuntu@54.163.242.157 \
-                    "./install.sh"
+                    "./installpm2.sh"
                 else 
                     echo "Skipped"; 
                 fi

@@ -26,11 +26,16 @@ userRouter
   .post(async (req, res, next) => {
     try {
       const result = await userService.getByUsername(req.body.username);
-      if (result == null || !result.isVerified) {
+      console.log(result);
+      if (result == null) {
         response.responseFailed(res, 401, "Login failed");
+        return;
+      } else if (!result.isVerified){
+        response.responseFailed(res, 401, "Account is not verified");
         return;
       }
       var hasil = await bcrypt.compare(req.body.password, result.password);
+      console.log(hasil);
       if (hasil == false) {
         response.responseFailed(res, 401, "Login failed");
         return;

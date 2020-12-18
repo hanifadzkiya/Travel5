@@ -1,12 +1,11 @@
 const express = require("express");
-const bodyParser = require('body-parser');
 
 const fileUtils = require("../util/fileUtils");
 const hotelService = require("../services/hotelService");
 const response = require("../util/response");
 
 const hotelRouter = express.Router();
-hotelRouter.use(bodyParser.json());
+
 hotelRouter
   .route("/:id")
   .get(async (req, res, next) => {
@@ -28,7 +27,6 @@ hotelRouter
     try {
       console.log(`Update hotel : ${JSON.stringify(req.body)}`);
       body = req.body;
-      console.log(body.room);
       const hotel = {
         name: body.name,
         room: JSON.parse(body.room),
@@ -101,6 +99,10 @@ hotelRouter
   .get(async (req, res, next) => {
     try {
       const hotels = await hotelService.get(req.params.id);
+      if (hotels == null) {
+        response.responseFailed(res, 404, "Hotel not found");
+        return;
+      }
       response.responseSuccess(res, hotels.reviews);
     } catch (err) {
       response.responseFailed(res, 500, err.message);
@@ -148,7 +150,6 @@ hotelRouter
         userId,
         req.body
       );
-      console.log(result);
       response.responseSuccess(res, result);
     } catch (err) {
       response.responseFailed(res, 500, err.message);

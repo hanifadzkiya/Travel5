@@ -14,7 +14,7 @@ passport.deserializeUser(function(user,done){
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_OAUTH_ID,
     clientSecret: process.env.GOOGLE_OAUTH_SECRET,
-    callbackURL: "http://localhost:3000/auth/google/callback"
+    callbackURL: "http://api.smartsupportku.com:3000/auth/google/callback"
   },
   async function(token, tokenSecret, profile, done) {
     console.log('profile: '+JSON.stringify(profile));

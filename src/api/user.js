@@ -183,7 +183,7 @@ userRouter
 
       mailSender.kirimEmail(
         result.email,
-        "http://127.0.0.1:3000/resetPassword/" + token
+        "http://54.163.242.157:3000/resetPassword/" + token
       );
 
       response.responseSuccess(res, {

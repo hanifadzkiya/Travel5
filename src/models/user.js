@@ -7,7 +7,7 @@ const transactionHotelSchema = new Schema(
   {
     idHotel: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "hotel",
+      ref: "Hotel",
       //harus required
     },
     totalTransaksi: {
@@ -32,7 +32,7 @@ const transactionTempatWisataSchema = new Schema(
   {
     idTempatWisata: {
       type: mongoose.Schema.Types.ObjectId,
-      //ref: 'TempatWisata'
+      ref: 'Destination'
     },
     totalTransaksi: {
       type: Number,
@@ -56,7 +56,7 @@ const transactionPaketWisataSchema = new Schema(
   {
     idPaketWisata: {
       type: mongoose.Schema.Types.ObjectId,
-      //ref: 'PaketWisata'
+      ref: 'PaketWisata'
     },
     totalTransaksi: {
       type: Number,

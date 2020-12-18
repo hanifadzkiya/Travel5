@@ -39,7 +39,7 @@ jobs:
             command: |
                 if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "fix/error-cd" ] 
                 then 
-                    docker build -t $DOCKER_USER/travel .
+                    docker build -t $DOCKER_USER/travel:latest .
                     echo $DOCKERHUB_PASSWORD | docker login -u $DOCKER_USER --password-stdin
                     docker push $DOCKER_USER/travel:latest
                     ssh -o StrictHostKeyChecking=no ubuntu@54.163.242.157 \

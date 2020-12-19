@@ -17,7 +17,7 @@ const insertTransaction = async (username, jenisTransaksi, detailTransaksi) => {
     transactionTempatWisata: "destination",
     transactionHotel: "hotel",
   };
-  const url = `http://${commonUtil.getPublicIp()}/${
+  const url = `http://${commonUtil.getPublicIp()}/transaction/${
     route[jenisTransaksi]
   }/detail/${username}/${transactionId}`;
   const qrcode = await qrcodeUtil.generate(url);

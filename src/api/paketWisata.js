@@ -39,6 +39,7 @@ paketRouter
     }
   });
 
+
 paketRouter
   .route("/:id")
   .get(async (req, res, next) => {
@@ -80,4 +81,95 @@ paketRouter
     }
   });
 
+
+paketRouter
+  .route('/:id/review')
+  .get(async (req, res, next) => {
+    try {
+      const paketwisata = await paketService.getAllReview(req.params.id);
+      if (paketwisata) {
+        response.responseSuccess(res, paketwisata);
+      } else {
+        response.responseFailed(res, 404, "Reviews Not Found");
+        return;
+      }
+    } catch (err) {
+      response.responseFailed(res, 500, err.message);
+    }
+  })
+  .post(async (req, res, next) => {
+    try {
+      const newReview = req.body;
+      const paketwisata = await paketService.addReview(req.params.id, newReview);
+      response.responseSuccess(res, paketwisata);
+    } catch (err) {
+      response.responseFailed(res, 500, err.message);
+    }
+  })
+  .delete(async (req, res, next) => {
+    try {
+      const deleteReview = await paketService.deleteAllReview(req.params.id);
+      response.responseSuccess(res, deleteReview);
+    } catch (err) {
+      response.responseFailed(res, 500, err.message);
+    }
+  });
+
+
+paketRouter
+  .route('/:id/review/:idReview')
+  .get(async (req, res, next) => {
+    try {
+      const review = await paketService.getReviewById(req.params.id, req.params.idReview);
+      if (review) {
+        response.responseSuccess(res, review);
+      } else {
+        response.responseFailed(res, 404, "Reviews Not Found");
+        return;
+      }
+    } catch (err) {
+      response.responseFailed(res, 500, err.message);
+    }
+  })
+  .put(async (req, res, next) => {
+    try {
+      const updatedReview = await paketService.updateReviewById(
+        req.params.id,
+        req.params.idReview,
+        req.body
+      );
+      if (updatedReview) {
+        response.responseSuccess(res, updatedReview);
+      } else {
+        response.responseFailed(res, 404, "Review Not Found");
+        return;
+      }
+    } catch (err) {
+      response.responseFailed(res, 500, err.message);
+    }
+  })
+  .delete(async (req, res, next) => {
+    try {
+      const deleteReview = await paketService.deleteAllReview(req.params.id);
+      response.responseSuccess(res, deleteReview);
+    } catch (err) {s
+      response.responseFailed(res, 500, err.message);
+    }
+  });
+
+paketRouter
+  .route('/:id/hits')
+  .put(async (req, res, next) => {
+    try{
+      const addHits = await paketService.addHits(req.params.id);
+      if (addHits){
+        response.responseSuccess(res, addHits);
+      } else {
+        response.responseFailed(res, 404, "Not Found");
+        return;
+      }
+    } catch (err) {
+      response.responseFailed(res, 500, err.message);
+    }
+  })
 module.exports = paketRouter;

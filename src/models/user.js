@@ -6,7 +6,7 @@ require("mongoose-currency").loadType(mongoose);
 const transactionHotelSchema = new Schema({
   idHotel:  {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'hotel'
+    ref: 'Hotel'
     //harus required
   },
   totalTransaksi:  {

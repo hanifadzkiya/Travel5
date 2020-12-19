@@ -20,10 +20,9 @@ const insertTransaction = async (username, jenisTransaksi, detailTransaksi) => {
   const url = `http://${commonUtil.getPublicIp()}/${
     route[jenisTransaksi]
   }/detail/${username}/${transactionId}`;
-  const qrcode = await qrcodeUtil.generate(
-    "http://127.0.0.1:3000/tour/detail/hanifadzkiya/5fdc9f443b1fefbc2d3aa0c7"
-  );
-  result.qrcode = qrcode;
+  const qrcode = await qrcodeUtil.generate(url);
+  console.log(qrcode);
+  Object.assign(result, { qrcode: qrcode });
   const urlPayment = await paymentService.createPaymentUrl(
     { amount: 10000 },
     {
@@ -33,7 +32,17 @@ const insertTransaction = async (username, jenisTransaksi, detailTransaksi) => {
       phone: result.phone,
     }
   );
-  emailUtil.sendEmail(result.email, "Your Package is Ready", `Please pay your bill in <a href="${urlPayment}"> here </a>`);
+  require("fs").writeFileSync(
+    `public/images/${transactionId}.png`,
+    qrcode.replace(/^data:image\/png;base64,/, ""),
+    "base64"
+  );
+  const urlImage = `http://${commonUtil.getPublicIp()}/images/${transactionId}.png`;
+  emailUtil.sendEmail(
+    result.email,
+    "Your Package is Ready",
+    `Please pay your bill in <a href="${urlPayment}"> here </a> Qr code : <img src="${urlImage}" height="400" width="400"/>`
+  );
   return result;
 };
 

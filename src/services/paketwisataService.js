@@ -73,6 +73,27 @@ const addHits = async (idPaket) => {
   )
 }
 
+const sortByPrice = async (asc) => {
+  if (asc == 'ascending'){
+    return await PaketWisata.find().sort('total_price');
+  } else{
+    return await PaketWisata.find().sort('-total_price');
+  }
+}
+
+const filterByPrice = async (lowest, highest) => { 
+  return await PaketWisata.find({ total_price: { $gte: lowest, $lte: highest } } )
+}
+
+const filterByDate = async (start, end) => {
+  return await PaketWisata.find( 
+    { 
+      start_date: { $lte: end },
+      end_date: {$gte: start}
+    }
+  )
+}
+
 module.exports = {
   getAll,
   add,
@@ -90,5 +111,9 @@ module.exports = {
   updateReviewById,
   deleteReviewById,
 
-  addHits
+  addHits,
+
+  sortByPrice,
+  filterByPrice,
+  filterByDate
 };

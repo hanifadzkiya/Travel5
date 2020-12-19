@@ -73,7 +73,6 @@ function predictRating(idUser, cosineSim, item){
     return dict;
 }
 
-
 const getRecPaket = async (username) => {
     currentUser = await Users.findOne(
         { username: username }

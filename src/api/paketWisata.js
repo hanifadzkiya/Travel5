@@ -172,4 +172,43 @@ paketRouter
       response.responseFailed(res, 500, err.message);
     }
   })
+
+paketRouter
+  .route('/price/sort/:asc')
+  .get(async (req, res, next) => {
+    console.log("ASDASDASD")
+    try {
+      console.log("ASDASD")
+      const asc = req.params.asc;
+      console.log(asc);
+      const result = await paketService.sortByPrice(asc);
+      if (result) {
+        response.responseSuccess(res, result);
+      } else {
+        response.responseFailed(res, 404, "Not Found");
+        return;
+      }
+    } catch (err) {
+      response.responseFailed(res, 500, err.message);
+    }
+  })
+
+paketRouter
+  .route('/price/:lowest/:highest')
+  .get(async (req, res, next) => {
+    try {
+      const lowest_price = req.params.lowest;
+      const highest_price = req.params.highest;
+      const result = await paketService.filterByPrice(lowest_price, highest_price);
+      if (result) {
+        response.responseSuccess(res, result);
+      } else {
+        response.responseFailed(res, 404, "Not Found");
+        return;
+      }
+    } catch (err) {
+      response.responseFailed(res, 500, err.message);
+    }
+  })
+
 module.exports = paketRouter;

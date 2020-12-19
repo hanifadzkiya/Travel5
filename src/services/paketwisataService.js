@@ -67,6 +67,12 @@ const deleteReviewById = async (idPaket, idReview) => {
   );
 };
 
+const addHits = async (idPaket) => {
+  return await PaketWisata.findByIdAndUpdate( idPaket,
+    { $inc: { hits: 1} }
+  )
+}
+
 module.exports = {
   getAll,
   add,
@@ -82,5 +88,7 @@ module.exports = {
 
   getReviewById,
   updateReviewById,
-  deleteReviewById
+  deleteReviewById,
+
+  addHits
 };

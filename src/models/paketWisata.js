@@ -58,6 +58,7 @@ const paketwisataSchema = new Schema(
       required: true,
     },
     reviews: [reviewSchema],
+    hits: Number
   },
   {
     timestamps: true,

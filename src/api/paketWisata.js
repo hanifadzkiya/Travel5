@@ -144,7 +144,9 @@ paketRouter
         response.responseFailed(res, 404, "Review Not Found");
         return;
       }
-    } catch (err) {}
+    } catch (err) {
+      response.responseFailed(res, 500, err.message);
+    }
   })
   .delete(async (req, res, next) => {
     try {
@@ -155,5 +157,19 @@ paketRouter
     }
   });
 
-
+paketRouter
+  .route('/:id/hits')
+  .put(async (req, res, next) => {
+    try{
+      const addHits = await paketService.addHits(req.params.id);
+      if (addHits){
+        response.responseSuccess(res, addHits);
+      } else {
+        response.responseFailed(res, 404, "Not Found");
+        return;
+      }
+    } catch (err) {
+      response.responseFailed(res, 500, err.message);
+    }
+  })
 module.exports = paketRouter;

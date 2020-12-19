@@ -8,7 +8,7 @@ const db = require("./models/db");
 const fileUpload = require('express-fileupload');
 const jwtService = require("./services/jwtService");
 const session = require('express-session');
-
+const cors = require('cors');
 // var indexRouter = require("./api/index");
 const destinationRouter = require("./api/destination");
 const hotelRouter = require("./api/hotel");
@@ -21,6 +21,7 @@ const passport = require('passport');
 const recommenderRouter = require("./api/rekomendasi");
 const recRouter = require("./api/rekomendasi");
 var app = express();
+app.use(cors());
 
 db()
   .then(() => console.log("Koneksi database telah sukses"))

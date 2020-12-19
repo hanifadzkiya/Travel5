@@ -11,7 +11,7 @@ const insertTransaction = async (username, jenisTransaksi, detailTransaksi) => {
     { new: true }
   );
   const transactionId =
-    result.transactionPaketWisata[result.transactionPaketWisata.length - 1]._id;
+    result[jenisTransaksi][result[jenisTransaksi].length - 1]._id;
   const route = {
     transactionPaketWisata: "tour",
     transactionTempatWisata: "destination",
@@ -24,7 +24,6 @@ const insertTransaction = async (username, jenisTransaksi, detailTransaksi) => {
     "http://127.0.0.1:3000/tour/detail/hanifadzkiya/5fdc9f443b1fefbc2d3aa0c7"
   );
   result.qrcode = qrcode;
-  console.log("HSHSHS");
   const urlPayment = await paymentService.createPaymentUrl(
     { amount: 10000 },
     {
@@ -35,7 +34,6 @@ const insertTransaction = async (username, jenisTransaksi, detailTransaksi) => {
     }
   );
   emailUtil.sendEmail(result.email, "Your Package is Ready", `Please pay your bill in <a href="${urlPayment}"> here </a>`);
-  // console.log(`<img src="${qrcode}" width="500" height="600">`);
   return result;
 };
 

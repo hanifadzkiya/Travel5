@@ -1,4 +1,4 @@
-version: 2.1
+oversion: 2.1
 
 jobs:
   build:
@@ -34,17 +34,17 @@ jobs:
                   echo "Skipped"
               fi
       - add_ssh_keys
-      - run: 
-            name: Deploy to EC2
-            command: |
-                if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "feature/cd" ] 
-                then 
-                    docker build -t $DOCKER_USER/travel .
-                    echo $DOCKERHUB_PASSWORD | docker login -u $DOCKER_USER --password-stdin
-                    docker push $DOCKER_USER/travel
-                    ssh -o StrictHostKeyChecking=no ubuntu@54.163.242.157 \
-                    "./install.sh"
-                else 
-                    echo "Skipped"; 
-                fi
+    #   - run: 
+    #         name: Deploy to EC2
+    #         command: |
+    #             if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "fix/error-cd" ] 
+    #             then 
+    #                 # docker build -t $DOCKER_USER/travel .
+    #                 # echo $DOCKERHUB_PASSWORD | docker login -u $DOCKER_USER --password-stdin
+    #                 # docker push $DOCKER_USER/travel
+    #                 ssh -o StrictHostKeyChecking=no ubuntu@54.163.242.157 \
+    #                 "./installpm2.sh"
+    #             else 
+    #                 echo "Skipped"; 
+    #             fi
         

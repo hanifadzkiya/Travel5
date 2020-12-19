@@ -149,6 +149,7 @@ transactionRouter
       req.body.totalTransaksi = req.body.totalTransaksi || hasil.totalTransaksi;
       req.body.start_date = req.body.start_date || hasil.start_date;
       req.body.end_date = req.body.end_date || hasil.end_date;
+      req.body.idHotel = req.body.idHotel || hasil.idHotel;
       hasil.remove();
       result.save(async function (err, result) {
         if (err) {
@@ -205,6 +206,7 @@ transactionRouter
       req.body.totalTransaksi = req.body.totalTransaksi || hasil.totalTransaksi;
       req.body.start_date = req.body.start_date || hasil.start_date;
       req.body.end_date = req.body.end_date || hasil.end_date;
+      req.body.idTempatWisata = req.body.idTempatWisata || hasil.idTempatWisata;
       hasil.remove();
       result.save(async function (err, result) {
         if (err) {
@@ -235,6 +237,7 @@ transactionRouter
         response.responseFailed(res, 404, "User not found");
         return;
       }
+      console.log(result);
       const hasil = await result.transactionPaketWisata.id(req.params.idTour);
       response.responseSuccess(res, hasil);
     } catch (err) {
@@ -259,6 +262,7 @@ transactionRouter
       req.body.totalTransaksi = req.body.totalTransaksi || hasil.totalTransaksi;
       req.body.start_date = req.body.start_date || hasil.start_date;
       req.body.end_date = req.body.end_date || hasil.end_date;
+      req.body.idPaketWisata = req.body.idPaketWisata || hasil.idPaketWisata;
       hasil.remove();
       result.save(async function (err, result) {
         if (err) {

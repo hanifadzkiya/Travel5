@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 
 const userService = require("../services/userService");
 const response = require("../util/response");
+const jwtService = require("../services/jwtService");
 
 const adminRouter = express.Router();
 
@@ -22,6 +23,7 @@ adminRouter
       req.body.password = hash;
       req.body.role = 1;
       const user = req.body;
+      user.isVerified = true;
       const users = await userService.add(user);
       response.responseSuccess(res, users);
     } catch (err) {
@@ -69,11 +71,11 @@ adminRouter
 
 adminRouter
   .route("/user")
-  .put(async (req, res, next) => {
+  .put(jwtService.authenticateTokenAdmin, async (req, res, next) => {
     response.responseFailed(res, 404, "Not Found");
   })
   //get all user
-  .get(async (req, res, next) => {
+  .get(jwtService.authenticateTokenAdmin, async (req, res, next) => {
     //admin
     try {
       const users = await userService.getAll();
@@ -83,7 +85,7 @@ adminRouter
     }
   })
   //delete all user
-  .delete(async (req, res, next) => {
+  .delete(jwtService.authenticateTokenAdmin, async (req, res, next) => {
     //admin
     try {
       const result = await userService.deleteAll();
@@ -99,7 +101,7 @@ adminRouter
 adminRouter
   .route("/user/:username")
   //update for admin
-  .put(async (req, res, next) => {
+  .put(jwtService.authenticateTokenAdmin, async (req, res, next) => {
     //admin
     try {
       if (req.body.password != null) {
@@ -118,7 +120,7 @@ adminRouter
     }
   })
   //get by username
-  .get(async (req, res, next) => {
+  .get(jwtService.authenticateTokenAdmin, async (req, res, next) => {
     //admin
     try {
       const result = await userService.getByUsername(req.params.username);
@@ -132,7 +134,7 @@ adminRouter
     }
   })
   //delete user by username
-  .delete(async (req, res, next) => {
+  .delete(jwtService.authenticateTokenAdmin, async (req, res, next) => {
     //admin
     try {
       const result = await userService.deleteByUsername(req.params.username);

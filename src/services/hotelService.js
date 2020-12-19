@@ -40,6 +40,9 @@ const deleteAll = async () => {
 
 const get = async (id) => {
   const hotel = await Hotels.findById(id);
+  if (hotel == null) {
+    return null;
+  }
   let ip = await commonUtils.getPublicIp();
   hotel.photos = hotel.photos.map((photo) =>
     fileUtils.buildFileAddress(ip, photo)
@@ -101,6 +104,9 @@ const deleteAllReviews = async (id) => {
 
 const getReviewUserInHotel = async (hotelId, userId) => {
   const hotel = await get(hotelId);
+  if (hotel == null) {
+    return null;
+  }
   const review = hotel.reviews.filter((x) => (x.userId = userId));
   if (review.length == 0) {
     return null;
@@ -119,6 +125,9 @@ const deleteReviewInHotelByUser = async (hotelId, userId) => {
 const updateReviewInHotelByUser = async (hotelId, userId, newReview) => {
   console.log(ObjectId.isValid(userId));
   const hotel = await Hotels.findById({ _id: hotelId });
+  if (hotel == null) {
+    return null;
+  }
   hotel.reviews.map((review) => {
     if (review.userId != userId) {
       return review;

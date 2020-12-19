@@ -139,6 +139,7 @@ userRouter
   .put(jwtService.authenticateTokenUser, async (req, res, next) => {
     //user dan admin
     try {
+      const user = await userService.getByUsername(req.body.username);
       if (req.files !== null) {
         const filePath = "./public/images/" + user.foto;
         fs.unlinkSync(filePath);
@@ -183,7 +184,7 @@ userRouter
 
       mailSender.kirimEmail(
         result.email,
-        "http://127.0.0.1:3000/resetPassword/" + token
+        "http://54.163.242.157:3000/resetPassword/" + token
       );
 
       response.responseSuccess(res, {

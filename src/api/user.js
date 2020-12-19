@@ -139,6 +139,7 @@ userRouter
   .put(jwtService.authenticateTokenUser, async (req, res, next) => {
     //user dan admin
     try {
+      const user = await userService.getByUsername(req.body.username);
       if (req.files !== null) {
         const filePath = "./public/images/" + user.foto;
         fs.unlinkSync(filePath);
